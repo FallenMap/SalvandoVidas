@@ -1,0 +1,172 @@
+group: ONGMascotas
+
+mascota = {
+	mas_ID:number, tip_ID:number, mas_Color:string, mas_Sexo:string, mas_Descripcion:string                                                   , mas_Foto:string 
+	1            , 1            , 'Negro'         , 'Macho'        , 'Hermoso cachorro de 6 meses de edad, activo y atento.'                  , '(Por Agregar)'
+	2            , 2            , 'Gris'          , 'Hembra'       , 'Tierna gatita de 1 año de edad, cariñosa y cazadora.'                   , '(Por Agregar)'
+	3            , 3            , 'Blanco'        , 'Macho'        , 'Pez georama traído de Corea, de 3 años de edad.'                        , '(Por Agregar)'
+	4            , 1            , 'Café'          , 'Macho'        , 'Perro bulldog de 2 años de edad, juguetón y servicial.'                 , '(Por Agregar)'
+	5            , 4            , 'Café'          , 'Hembra'       , 'Hámster de 9 meses de edad, activa y comelona.'                         , '(Por Agregar)'
+	6            , 5            , 'Verde'         , 'Macho'        , 'Loro de 8 meses de edad, charlatán y silbador.'                         , '(Por Agregar)'
+	7            , 6            , 'Blanco'        , 'Macho'        , 'Saltarín, comelón, tranquilo y veloz.'                                  , '(Por Agregar)'
+	8            , 2            , 'Blanco'        , 'Macho'        , 'Gato de 2 años de edad, perezoso y bastante cariñoso.'                  , '(Por Agregar)'
+	9            , 1            , 'Gris'          , 'Hembra'       , 'Perra siberiana de 1 año de edad, demasiado activa.'                    , '(Por Agregar)'
+	10           , 2            , 'Manchado'      , 'Macho'        , 'Gato de colores blanco y negro, de 8 meses, juguetón.'                  , '(Por Agregar)'
+	11           , 1            , 'Manchado'      , 'Macho'        , 'Perro criollo, 2 años, tranquilo, sabe jugar con la pelota.'            , '(Por Agregar)'
+	12           , 1            , 'Negro'         , 'Hembra'       , 'Perro chihuahua, de año y medio de edad, bastante juguetón y cariñoso.' , '(Por Agregar)'
+	13           , 2            , 'Manchado'      , 'Macho'        , 'Gato criollo, aproximadamente 5 años de edad, muy tranquilo y dormilón.', '(Por Agregar)'
+	14           , 1            , 'Blanco'        , 'Hembra'       , 'Perro criollo, 10 meses de edad, extremadamente juguetona.'             , '(Por Agregar)'
+	15           , 6            , 'Blanco'        , 'Hembra'       , 'Hembra conejo, de unos 4 meses de edad, muy activa.'                    , '(Por Agregar)'
+	16           , 1            , 'Manchado'      , 'Macho'        , 'Perro husky blanco y negro, de 2 años, tímido.'                         , '(Por Agregar)'
+}
+
+tipo_de_mascota = 
+{
+	tip_ID:number, tip_Habitat:string, tip_Denominacion:string, tip_Generalidades:string                                     , tip_Alimento:string, tip_Foto:string
+	1            , 'Tierra'          , 'Perro'                , 'Juguetones,cariñosos, divertidos, amigables y tiernos.'     , 'Purinas'          , '(Por Agregar)'
+	2            , 'Tierra'          , 'Gato'                 , 'Independientes, tiernos, juguetones y dormilones.'          , 'Purinas'          , '(Por Agregar)'
+	3            , 'Agua'            , 'Pez'                  , 'Tranquilos, Independientes, saludables y comelones.'        , 'Plancton'         , '(Por Agregar)'
+	4            , 'Tierra'          , 'Hámster'              , 'Inquietos, juguetones, curiosos, peludos y tiernos.'        , 'Plantas'          , '(Por Agregar)'
+	5            , 'Aire'            , 'Loro'                 , 'Melódicos, curiosos, tiernos, charlatanes y buena compañía.', 'Semillas'         , '(Por Agregar)'
+	6            , 'Tierra'          , 'Conejo'               , 'Peludos, saltarines, tiernos, asustadizos y curiosos.'      , 'Zanahorias'       , '(Por Agregar)'
+}
+
+empleado = {
+	emp_ID:number, emp_Documento:number, emp_Nombre:string, emp_Apellido:string, emp_Fecha:string, fun_ID:number
+	1            , 1002798452          , 'Andrés'         , 'Naranjo'          , '12/11/1990'    , 5            
+	2            , 1004598416          , 'Maria'          , 'Garzón'           , '20/4/1988'     , 2            
+	3            , 3002745234          , 'Jairo'          , 'Castro'           , '9/3/1995'      , 1            
+	4            , 1034542458          , 'Felipe'         , 'Castañeda'        , '15/9/1998'     , 3            
+	5            , 1009875252          , 'Camila'         , 'Correa'           , '26/12/1986'    , 4            
+	6            , 8009178469          , 'Miguel'         , 'Gutierrez'        , '17/4/1994'     , 4            
+	7            , 2041476411          , 'Brian'          , 'Parra'            , '31/12/1990'    , 2            
+	8            , 2401111134          , 'Milena'         , 'Sandoval'         , '24/1/1989'     , 1            
+	9            , 2714614844          , 'Carlos'         , 'Sandoval'         , '15/8/1991'     , 6            
+}
+
+funcion = {
+	fun_ID:number, fun_Tipo:string, fun_Descripcion:string                                                             , fun_Horario1:string, fun_Horario2:string, fun_Pago:number
+	1            , 'Vigilancia'   , 'Vigila la propiedad, donde se encuentran los animales.'                           , '7:00AM-7:00PM'    , '7:00PM-7:00AM'    , 1000000        
+	2            , 'Psicólogo'    , 'Estudia a los candidatos de adopción.'                                            , '8:00AM-3:00PM'    , null               , 1300000        
+	3            , 'Publicista'   , 'Encargado del manejo de las redes sociales.'                                      , '7:00AM-5:00PM'    , null               , 1000000        
+	4            , 'Veterinario'  , 'Mantiene saludables a los animales, los alimenta, entrega y vigila su integridad.', '5:00AM-2:00PM'    , '2:00AM-10:00PM'   , 1500000        
+	5            , 'Contador'     , 'Administra el dinero obtenido de donaciones y realiza pagos.'                     , '7:00AM-5:00PM'    , null               , 1300000        
+	6            , 'Rescatista'   , 'Busca animales en situación de riesgo para su afiliación con la entidad.'         , '7:00AM-5:00PM'    , '7:00PM-7:00AM'    , 1300000        
+}
+
+candidato = {
+	can_ID:number, can_Documento:number, can_Nombre:string, can_Apellido:string, can_Fecha:string, can_Residencia:string, can_Ingreso:number, can_Estado:string
+	1            , 80049304            , 'Luis'           , 'Díaz'              , '15/3/1998'     , 'Cll 36 #1-81 este'  , 1000500           , 'Apto'           
+	2            , 1000258096          , 'Fernanda'       , 'Caro'              , '17/4/1968'     , 'Cr 24 45 - 80'      , 2455850           , 'Apto'           
+	3            , 24716661            , 'Angel'          , 'Pérez'             , '16/4/1981'     , 'Cr 2 #31-48'        , 1456780           , 'Apto'           
+	4            , 1035415246          , 'Luisa'          , 'García'            , '20/4/1979'     , 'Cll 40 # 2-40 este' , 1200500           , 'No Apto'        
+	5            , 27716616            , 'Valentina'      , 'Suarez'            , '15/3/2000'     , 'Cr 36 37 - 73'      , 3350850           , 'Apto'           
+	6            , 1028474784          , 'Sebastian'      , 'Ramirez'           , '30/10/1967'    , 'Cr 31 30 - 20'      , 1690590           , 'No Apto'        
+	7            , 1000708776          , 'Rodrigo'        , 'Peña'              , '20/4/2001'     , 'Cll 105 #47-77'     , 4456870           , 'Apto'           
+	8            , 1031488456          , 'Joel'           , 'Pelaez'            , '15/4/1993'     , 'Cr 9 #87 -52'       , 1867950           , 'Apto'           
+	9            , 1009323575          , 'Valeria'        , 'Pinzón'            , '3/3/1970'      , 'Cll 114 #5-2'       , 6124673           , 'Apto'           
+	10           , 1032868491          , 'Michael'        , 'Alvarez'           , '4/3/1970'      , 'Cll 120 #1-10 Norte', 1389670           , 'No Apto'        
+}
+
+adopcion = {
+	ado_ID:number, apl_ID:number, emp_ID:number, ado_Fecha:string
+	1            , 1            , 5            , '7/11/2020'     
+	2            , 13           , 5            , '20/11/2020'    
+	3            , 3            , 5            , '11/11/2020'    
+	4            , 9            , 6            , '18/11/2020'    
+	5            , 5            , 6            , '19/11/2020'    
+	6            , 11           , 5            , '25/11/2020'    
+	7            , 20           , 6            , '4/11/2020'     
+	8            , 8            , 6            , '16/11/2020'    
+	9            , 16           , 5            , '19/11/2020'    
+	10           , 10           , 6            , '28/11/2020'    
+}
+
+aplica = {
+	apl_ID:number, can_ID:number, mas_ID:number, apl_FechaAplicacion:string
+	1            , 1            , 10           , '1/11/2020'               
+	2            , 3            , 10           , '2/11/2020'               
+	3            , 3            , 6            , '4/11/2020'               
+	4            , 9            , 6            , '6/11/2020'               
+	5            , 1            , 2            , '12/11/2020'              
+	6            , 7            , 16           , '13/11/2020'              
+	7            , 1            , 14           , '14/11/2020'              
+	8            , 7            , 8            , '9/11/2020'               
+	9            , 5            , 1            , '11/11/2020'              
+	10           , 5            , 9            , '21/11/2020'              
+	11           , 9            , 7            , '18/11/2020'              
+	12           , 2            , 13           , '19/11/2020'              
+	13           , 2            , 4            , '13/11/2020'              
+	14           , 8            , 5            , '13/11/2020'              
+	15           , 8            , 4            , '15/11/2020'              
+	16           , 5            , 5            , '12/11/2020'              
+	17           , 9            , 2            , '11/11/2020'              
+	18           , 3            , 12           , '12/11/2020'              
+	19           , 1            , 3            , '29/10/2020'              
+	20           , 8            , 3            , '28/10/2020'              
+}
+
+contribuidor = {
+	con_ID:number, con_Documento:number, con_Nombre:string, con_Apellido:string, con_Fecha:string, con_Labor:string       , con_Foto:string
+	1            , 1005468754          , 'Samir'          , 'Nariño'           , '12/2/1979'     , 'Contratista'          , '(Por Agregar)'
+	2            , 1001278543          , 'Esteban'        , 'Zamora'           , '8/9/1983'      , 'Medico'               , '(Por Agregar)'
+	3            , 1000835552          , 'Dayanna'        , 'Garcia'           , '13/7/1981'     , 'Veterinaria'          , '(Por Agregar)'
+	4            , 1006228747          , 'Paula'          , 'Vargas'           , '11/12/1979'    , 'Contador'             , '(Por Agregar)'
+	5            , 1005468754          , 'Vanessa'        , 'Torres '          , '2/7/1998'      , 'Ingeniera de Sistemas', '(Por Agregar)'
+	6            , 1004873012          , 'Oscar'          , 'Franco'           , '6/12/1970'     , 'Mecanico'             , '(Por Agregar)'
+	7            , 1006234232          , 'Viviana'        , 'Vargas'           , '10/7/2003'     , 'Estudiante'           , '(Por Agregar)'
+}
+
+donacion = {
+	don_Numero:number, don_Valor:number, don_Lugar:string, con_ID:number, don_Fecha:string
+	123452           , 1000000         , 'Bogotá'        , 5            , '2/11/2020'     
+	363452           , 200000          , 'Soacha'        , 1            , '12/11/2020'    
+	328563           , 900000          , 'Sopó'          , 3            , '11/11/2020'    
+	292387           , 2200000         , 'Madrid'        , 1            , '18/11/2020'    
+	431224           , 2000000         , 'Bogotá'        , 2            , '13/11/2020'    
+	276541           , 600000          , 'Bogotá'        , 4            , '12/11/2020'    
+	721453           , 400000          , 'Soacha'        , 5            , '29/10/2020'    
+	745124           , 50000           , 'Soacha'        , 7            , '9/11/2020'     
+	745134           , 800000          , 'Chía'          , 6            , '18/11/2020'    
+	847157           , 1100000         , 'Cota'          , 2            , '13/11/2020'    
+	546382           , 900000          , 'Madrid'        , 1            , '11/11/2020'    
+	292334           , 2200000         , 'Madrid'        , 4            , '12/11/2020'    
+	411224           , 1000000         , 'Bogotá'        , 1            , '13/11/2020'    
+}
+
+pago_empleado = {
+	pag_Numero:number, emp_ID:number, pad_ID:number, pag_Total:number, pag_Fecha:string
+	1010200          , 2            , null         , 1300000         , '8/12/2020'     
+	1010201          , 1            , null         , 1300000         , '8/12/2020'     
+	1010202          , 3            , null         , 1000000         , '8/12/2020'     
+	1010203          , 8            , null         , 1000000         , '8/12/2020'     
+	1010204          , 5            , 1            , 1700000         , '8/12/2020'     
+	1010205          , 6            , 2            , 1800000         , '8/12/2020'     
+	1010206          , 7            , null         , 1300000         , '8/12/2020'     
+	1010207          , 4            , null         , 1000000         , '8/12/2020'     
+	1010208          , 9            , 3            , 1450000         , '8/12/2020'     
+}
+
+pago_adicional_empleado = {
+	pad_ID:number, pad_Valor:number, pad_Descripcion:string       
+	1            , 200000          , 'Medicamentos'               
+	2            , 300000          , 'Alimentos para los animales'
+	3            , 150000          , 'Alimentación y transporte'  
+}
+
+economia ={
+	eco_ID:number, don_Numero:number, pag_Numero:number, eco_Total:number, eco_Fecha:string
+	1            , 123452           , 1010200          , -886748         , '8/12/2020'     
+	2            , 363452           , 1010201          , -646749         , '8/12/2020'     
+	3            , 328563           , 1010202          , -681639         , '8/12/2020'     
+	4            , 292387           , 1010203          , -717816         , '8/12/2020'     
+	5            , 431224           , 1010204          , -578980         , '8/12/2020'     
+	6            , 276541           , 1010205          , -733664         , '8/12/2020'     
+	7            , 721453           , 1010206          , -288753         , '8/12/2020'     
+	8            , 745124           , 1010207          , -265083         , '8/12/2020'     
+	9            , 745134           , 1010208          , -265074         , '8/12/2020'     
+	10           , 847157           , null             , 1100000         , '8/12/2020'     
+	11           , 546382           , null             , 900000          , '8/12/2020'     
+	12           , 292334           , null             , 2000000         , '8/12/2020'     
+	13           , 411224           , null             , 1000000         , '8/12/2020'     
+}

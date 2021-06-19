@@ -1,0 +1,76 @@
+-- TODAS_LAS_MASCOTAS_RESCATADAS
+-- ρ mas_Rescatadas (π mascota.mas_ID, tipo_de_mascota.tip_Denominacion, mascota.mas_Color, mascota.mas_Sexo, mascota.mas_Descripcion ,mascota.mas_Foto	(mascota ⨝ tipo_de_mascota))
+
+
+-- TODAS LAS MASCOTAS NO ADOPTADAS
+-- ρ Mascotas_no_adoptadas (π mascota.mas_ID ,tipo_de_mascota.tip_Denominacion ,mascota.mas_Color ,mascota.mas_Sexo ,mascota.mas_Descripcion ,mascota.mas_Foto (((π mas_ID (mascota) - π mas_ID (aplica ⨝ adopcion)) ⨝ mascota) ⨝ tipo_de_mascota))
+
+-- TODAS LAS MASCOTAS ADOPTADAS
+-- ρ Mascotas_adoptadas (π mascota.mas_ID ,tipo_de_mascota.tip_Denominacion ,mascota.mas_Color ,mascota.mas_Sexo ,mascota.mas_Descripcion ,mascota.mas_Foto  (((π mas_ID (mascota) ∩ π mas_ID (aplica ⨝ adopcion)) ⨝ mascota) ⨝ tipo_de_mascota))
+
+-- PERROS EN ADOPCION
+-- ρ Perros_en_adopcion (π mascota.mas_ID ,tipo_de_mascota.tip_Denominacion ,mascota.mas_Color ,mascota.mas_Sexo ,mascota.mas_Descripcion ,mascota.mas_Foto (σ tipo_de_mascota.tip_Denominacion = 'Perro' (((π mas_ID (mascota) - π mas_ID (aplica ⨝ adopcion)) ⨝ mascota) ⨝ tipo_de_mascota)))
+
+
+-- GATOS EN ADOPCION
+-- ρ Gatos_en_adopcion (π  mascota.mas_ID ,tipo_de_mascota.tip_Denominacion ,mascota.mas_Color ,mascota.mas_Sexo ,mascota.mas_Descripcion ,mascota.mas_Foto (σ tipo_de_mascota.tip_Denominacion = 'Gato' (((π mas_ID (mascota) - π mas_ID (aplica ⨝ adopcion)) ⨝ mascota) ⨝ tipo_de_mascota)))
+
+-- HAMSTERS EN ADOPCION
+-- ρ Hamsters_en_adopcion (π  mascota.mas_ID ,tipo_de_mascota.tip_Denominacion ,mascota.mas_Color ,mascota.mas_Sexo ,mascota.mas_Descripcion ,mascota.mas_Foto (σ tipo_de_mascota.tip_Denominacion = 'Hamster' (((π mas_ID (mascota) - π mas_ID (aplica ⨝ adopcion)) ⨝ mascota) ⨝ tipo_de_mascota)))
+
+-- LOROS EN ADOPCION
+-- ρ Loros_en_adopcion (π  mascota.mas_ID ,tipo_de_mascota.tip_Denominacion ,mascota.mas_Color ,mascota.mas_Sexo ,mascota.mas_Descripcion ,mascota.mas_Foto (σ tipo_de_mascota.tip_Denominacion = 'Loro' (((π mas_ID (mascota) - π mas_ID (aplica ⨝ adopcion)) ⨝ mascota) ⨝ tipo_de_mascota)))
+
+-- CONEJOS EN ADOPCION
+-- ρ Conejos_en_adopcion (π  mascota.mas_ID ,tipo_de_mascota.tip_Denominacion ,mascota.mas_Color ,mascota.mas_Sexo ,mascota.mas_Descripcion ,mascota.mas_Foto (σ tipo_de_mascota.tip_Denominacion = 'Conejo' (((π mas_ID (mascota) - π mas_ID (aplica ⨝ adopcion)) ⨝ mascota) ⨝ tipo_de_mascota)))
+
+-- PECES EN ADOPCION
+-- ρ Peces_en_adopcion (π  mascota.mas_ID ,tipo_de_mascota.tip_Denominacion ,mascota.mas_Color ,mascota.mas_Sexo ,mascota.mas_Descripcion ,mascota.mas_Foto (σ tipo_de_mascota.tip_Denominacion = 'Pez' (((π mas_ID (mascota) - π mas_ID (aplica ⨝ adopcion)) ⨝ mascota) ⨝ tipo_de_mascota)))
+
+-- MASCOTAS MACHO EN ADOPCION
+-- ρ Machos_en_adopcion (π  mascota.mas_ID ,tipo_de_mascota.tip_Denominacion ,mascota.mas_Color ,mascota.mas_Sexo ,mascota.mas_Descripcion ,mascota.mas_Foto (σ mascota.mas_Sexo = 'Macho' (((π mas_ID (mascota) - π mas_ID (aplica ⨝ adopcion)) ⨝ mascota) ⨝ tipo_de_mascota)))
+
+-- MASCOTAS HEMBRA EN ADOPCION 
+-- ρ Hembras_en_adopcion (π  mascota.mas_ID ,tipo_de_mascota.tip_Denominacion ,mascota.mas_Color ,mascota.mas_Sexo ,mascota.mas_Descripcion ,mascota.mas_Foto (σ mascota.mas_Sexo = 'Hembra' (((π mas_ID (mascota) - π mas_ID (aplica ⨝ adopcion)) ⨝ mascota) ⨝ tipo_de_mascota)))
+
+-- TODOS LOS EMPLEADOS
+-- ρ empleados (empleado ⨝ funcion)
+
+-- EMPLEADOS VIGILANTES
+-- ρ empleados_vigilantes (σ funcion.fun_Tipo = 'Vigilancia' (empleado ⨝ funcion))
+
+-- EMPLEADOS PSICOLOGOS
+-- ρ empleados_psicologos (σ funcion.fun_Tipo = 'Psicólogo' (empleado ⨝ funcion))
+
+-- EMPLEADOS PUBLICISTAS
+-- ρ empleados_publicistas (σ funcion.fun_Tipo = 'Publicista' (empleado ⨝ funcion))
+
+-- EMPLEADOS VETERINARIOS
+-- ρ empleados_veterinarios (σ funcion.fun_Tipo = 'Veterinario' (empleado ⨝ funcion))
+
+-- EMPLEADOS CONTADORES
+-- ρ empleados_contadores (σ funcion.fun_Tipo = 'Contador' (empleado ⨝ funcion))
+
+-- EMPLEADOS RESCATISTAS
+-- ρ empleados_rescatistas (σ funcion.fun_Tipo = 'Rescatista' (empleado ⨝ funcion))
+
+-- CANDIDATOS APTOS
+-- ρ candidatos_aptos (σ candidato.can_Estado = 'Apto' (candidato))
+
+-- CANDIDATOS NO APTOS
+-- ρ candidatos_no_aptos (σ candidato.can_Estado = 'No Apto' (candidato))
+
+-- TODOS LOS CONTRIBUIDORES Y DONACIONES
+-- ρ contribuidores_y_donaciones ((donacion ⨝ contribuidor))
+
+-- EMPLEADOS CON PAGOS ADICIONALES
+-- ρ pagos_adicionales (empleado ⨝ (pago_empleado ⨝ pago_adicional_empleado))
+
+-- SALDO DE SALVANDO VIDAS
+-- γ sum(eco_Total) → Saldo (economia)
+
+-- SUELDO SEGÚN FUNCIÓN
+-- π fun_Tipo, fun_Pago (funcion)
+
+-- INFORMACIÓN BÁSICA DE APLICACIONES QUE NO SON ADOPCIONES
+-- π apl_ID, apl_FechaAplicacion, can_Nombre, can_Apellildo, mas_Foto ((π apl_ID (σ ado_ID = null (aplica ⟕ adopcion))) ⨝ (candidato) ⨝ (mascota) ⨝ (aplica))
