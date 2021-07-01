@@ -380,10 +380,7 @@ HAVING COUNT(*) >1;
 
 -- EGRESOS TOTALES VS INGRESOS
 SELECT * FROM
-(SELECT SUM(Suma) AS EgresosTotales FROM
-((SELECT SUM(pag_Total) AS Suma FROM pagoempleado) 
-UNION
-(SELECT SUM(pad_Valor) FROM pagoadicionalempleado))AS aliasA) AS aliasB
+((SELECT SUM(pag_Total) AS EgresosTotales FROM pagoempleado) AS ALIASA
 JOIN
-(SELECT SUM(don_Valor) AS IngresosTotales FROM donacion) AS aliasC;
+(SELECT SUM(don_Valor) AS IngresosTotales FROM donacion)AS ALIASB)
 
