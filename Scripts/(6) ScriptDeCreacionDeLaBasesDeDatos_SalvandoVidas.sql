@@ -219,9 +219,9 @@ create table PagoAdicionalEmpleado(
 	pad_Descripción		VARCHAR(200) 		NOT NULL
 );
 insert into PagoAdicionalEmpleado		(pad_Valor,		pad_Descripción					)
-values									(200.000,		'Medicamentos'					),
-										(300.000,		'Alimentos para los animales'	),
-										(150.000,		'Alimentación y transporte'		);
+values									(200000,		'Medicamentos'					),
+										(300000,		'Alimentos para los animales'	),
+										(150000,		'Alimentación y transporte'		);
 
 
 
