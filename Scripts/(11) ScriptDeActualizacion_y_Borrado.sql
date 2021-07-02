@@ -31,11 +31,12 @@ Delete from mascota where mas_ID = 11;
 -- -Accede Veterinario
 
 -- Actualización
-Update tipodemascota set tip_Habitat = '',
-tip_Denominacion = '',
-tip_Generalidades = '',
-tip_Alimento = '',
-tip_Foto = null;
+Update tipodemascota set tip_Habitat = 'Aire',
+tip_Denominacion = 'Loro',
+tip_Generalidades = 'Melodicos, curiosos, tiernos, charlatanes y buena compañía.',
+tip_Alimento = 'Semillas',
+tip_Foto = null
+WHERE tip_id = 5;
 
 -- Borrado
 Delete from tipodemascota where tip_ID = 7;
