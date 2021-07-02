@@ -470,7 +470,7 @@ DELIMITER ;
 -- Procedimiento consulta mascotas por sexo
 drop procedure if exists proc_cons_sexo_mas_enadopcion;
 DELIMITER $$
-create procedure proc_cons_sexo_mas__enadopcion(in sexo varchar(20))
+create procedure proc_cons_sexo_mas_enadopcion(in sexo varchar(20))
 begin
 	SELECT mas_ID ,tip_Denominacion ,mas_Color ,
 	mas_Sexo ,mas_Descripcion ,mas_Foto 
