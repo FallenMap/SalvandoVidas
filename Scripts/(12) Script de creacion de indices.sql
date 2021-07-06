@@ -16,6 +16,6 @@ CREATE INDEX indic_AplicaFecha  ON Aplica(apl_FechaAplicacion);
 -- Puede ser de utilidad para la ONG ver las adopciones de acuerdo a una fecha
 CREATE INDEX indic_AdopcionFecha  ON Adopcion(ado_Fecha);
 
--- Se crea indice en la fecha de adopcion
+-- Se crea indice en la fecha de donacion
 -- Puede ser de utilidad para la ONG ver las donaciones de acuerdo a una fecha
 CREATE INDEX indic_DonacionFecha  ON Donacion(don_Fecha);
