@@ -140,7 +140,7 @@ CREATE TRIGGER tr_pagoempleado_binsert BEFORE INSERT ON pagoempleado
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'paf_Fecha DEBE SER UNA FECHA IGUAL A LA ACTUAL';
         END IF;
         
-		SELECT fun_pago INTO pagoFuncion FROM funcion WHERE fun_id = NEW. emp_ID;
+		SELECT fun_pago INTO pagoFuncion FROM funcion NATURAL JOIN Empleado WHERE emp_id = NEW.emp_ID;
         IF NEW.pad_ID IS NOT NULL THEN
 			SELECT pad_valor INTO pagoAdicional FROM pagoadicionalempleado WHERE pad_ID = NEW.pad_ID;
         END IF;
