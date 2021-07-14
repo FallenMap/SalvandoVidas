@@ -2,9 +2,9 @@
 Archivo inicial del servidor
 '''
 
-from flask import Flask, render_template, request, redirect, url_for
-from flask_mysqldb import MySQL
 import re
+from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
@@ -12,7 +12,10 @@ app.config['MYSQL_DB'] = ''
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = '1234'
 mysql = MySQL(app)
-    
+
+# settings
+app.secret_key = "mysecretkey"
+
 @app.route('/')
 def Homepage():
     return render_template('homepage.html')
@@ -32,7 +35,7 @@ def login_form():
             perfil = re.split(r'(\W+)',(str(data[0])))[2]
             print(perfil)
         except :
-            print("Usuario denegado")
+            flash("Usuario o contraseña incorrectos")
             return redirect(url_for("Homepage"))
     return redirect("/user/"+ perfil)
 

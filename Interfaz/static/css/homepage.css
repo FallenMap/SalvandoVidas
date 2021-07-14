@@ -3,20 +3,3 @@ body {
   padding: 0;
   height: 100vh;
 }
-
-#login .container {
-    margin: 20px;
-}
-
-#login .container .form-group {
-    padding: 10px;
-    padding-left: 0px;
-    padding-right: 0px;
-}
-
-#login .container  #login-form {
-  padding: 20px;
-  margin: 20px;
-  border: 1px solid;
-  border-radius: 1em;
-}
