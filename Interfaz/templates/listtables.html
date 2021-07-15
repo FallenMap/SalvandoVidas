@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+  {% block content %}
+  <div class="m-0 vh-100 row justify-content-center align-items-center">
+    <div class="col-auto p-5 text-center border border-secondary rounded-3">
+      <div class="container-fluid px-1 py-3">
+	<h1 class="display-6">Bienvenido {{perfil}}</h1>
+      </div>
+      <form action="{{url_for('list_form', perfil = perfil)}}" method="POST">
+	<div class="container-fluid px-1 py-3">
+	    <select class="form-select fs-6" name="option" aria-label="Default select example">
+	      <option selected >Elija la tabla que quiere ver o editar</option>
+	      {% for table in tables %}
+	      <option value="{{table}}">{{table.0}}</option>
+	      {% endfor %}
+	    </select>
+	</div>
+	<div class="container-fluid px-1 py-3">
+	    <div class="row">
+		<div class="col">
+		    <button id="btn-entrar" type="submit" class="btn btn-secondary btn-lg w-100">Siguiente</button>
+		</div>
+		<div class="col">
+		    <a href="/" id="btn-Atras" class="btn btn-secondary btn-lg w-100">Atras</a>
+		</div>
+	    </div>
+	</div>
+      </form>
+    </div>
+  </div>
+  {% endblock %}

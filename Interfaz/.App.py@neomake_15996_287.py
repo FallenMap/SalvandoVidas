@@ -75,11 +75,8 @@ def user_perfil(perfil):
             app.config['MYSQL_USER'] = "Anonimo"
             app.config['MYSQL_PASSWORD'] = "12345"
 
-        cur = mysql.connection.cursor()
-        cur.execute('SET ROLE ALL;')
-        cur.execute('show grants for current_USER();')
-        data = cur.fetchall()
-        list_data = Obtain_tables(data)
+        list_data = Obtain_tables;
+
 
     return render_template('listtables.html', perfil = perfil, tables = list_data)
 
@@ -88,6 +85,16 @@ def list_form(perfil):
     if request.method == 'POST':
         table = request.form['option']
         print(table, perfil)
+        cur = mysql.connection.cursor()
+        cur.execute('SET ROLE ALL;')
+        cur.execute('select current_role();')
+        #cur.execute('show grants for %s;', perfil)
+        data = cur.fetchall()
+        print(data)
+        cur.execute('show grants for current_USER();')
+        #cur.execute('show grants for %s;', perfil)
+        data = cur.fetchall()
+        print(data)
     return redirect("/user/" + perfil)
 
 if __name__ == '__main__':

@@ -66,28 +66,34 @@ def user_perfil(perfil):
         cur.execute('show tables from salvandovidas;')
         data = cur.fetchall()
         list_data = list(data)
-        for i in range(0,len(list_data)):
-            list_data[i] = list(list_data[i])
-            list_data[i].append(['SELECT', 'UPDATE', 'INSERT', 'DELETE'])
-            list_data[i] = tuple(list_data[i])
+        #lista = []
+        #for i in data:
+        #    lista.append(i[0])
+        #data = tuple(lista)
+        print(data)
     else:
         if perfil == "Invitado":
             app.config['MYSQL_USER'] = "Anonimo"
             app.config['MYSQL_PASSWORD'] = "12345"
 
-        cur = mysql.connection.cursor()
-        cur.execute('SET ROLE ALL;')
-        cur.execute('show grants for current_USER();')
-        data = cur.fetchall()
-        list_data = Obtain_tables(data)
 
-    return render_template('listtables.html', perfil = perfil, tables = list_data)
+    return render_template('listtables.html', perfil = perfil)
 
 @app.route('/list_form/<perfil>', methods=['POST'])
 def list_form(perfil):
     if request.method == 'POST':
         table = request.form['option']
         print(table, perfil)
+        cur = mysql.connection.cursor()
+        cur.execute('SET ROLE ALL;')
+        cur.execute('select current_role();')
+        #cur.execute('show grants for %s;', perfil)
+        data = cur.fetchall()
+        print(data)
+        cur.execute('show grants for current_USER();')
+        #cur.execute('show grants for %s;', perfil)
+        data = cur.fetchall()
+        print(data)
     return redirect("/user/" + perfil)
 
 if __name__ == '__main__':
