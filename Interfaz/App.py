@@ -17,6 +17,14 @@ mysql = MySQL(app)
 app.secret_key = "mysecretkey"
 
 def obtain_tables(data):
+    '''
+    Función que extrae las tablas y permisos a partir de
+    la consulta 'show grants for current_USER();'
+    :param data: resultados de la consulta
+    :return: lista donde el primer elemento de cada
+    fila es la tabla, y el segundo los permisos sobre esta
+    :rtype: list
+    '''
     tables = []
     for i in range(1,len(data)-1):
         list_permits = []
@@ -87,8 +95,26 @@ def user_perfil(perfil):
 def list_form(perfil):
     if request.method == 'POST':
         table = request.form['option']
-        print(table, perfil)
-    return redirect("/user/" + perfil)
+        if "Elija" in table :
+            return redirect("/user/" + perfil)
+        words = re.split(r'\W+',table)
+        while '' in words:
+            words.remove('')
+        if len(words) == 2:
+            return redirect("/table/" + words [0] + "/" + words [1])
+        if len(words) == 2:
+            return redirect("/table/" + words [0] + "/" + words [1] + "/" + words [2])
+
+    return redirect("/table/" + words [0] +"/"+ words [1] +"/"+ words [2] +"/"+ words [3] +"/"+ words [4])
+
+@app.route('/table/<table>')
+@app.route('/table/<table>/<permit1>')
+@app.route('/table/<table>/<permit1>/<permit2>')
+@app.route('/table/<table>/<permit1>/<permit2>/<permit3>')
+@app.route('/table/<table>/<permit1>/<permit2>/<permit3>/<permit4>')
+def table(table, permit1 = None, permit2 = None, permit3 = None, permit4 = None):
+    print(table,permit1,permit2,permit3,permit4)
+    return render_template('table.html')
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)

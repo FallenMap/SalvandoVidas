@@ -5,10 +5,10 @@
       <div class="container-fluid px-1 py-3">
 	<h1 class="display-6">Bienvenido {{perfil}}</h1>
       </div>
-      <form action="{{url_for('list_form', perfil = perfil)}}" method="POST">
+      <form name="formulario de seleccion" action="{{url_for('list_form', perfil = perfil)}}" method="POST">
 	<div class="container-fluid px-1 py-3">
 	    <select class="form-select fs-6" name="option" aria-label="Default select example">
-	      <option selected >Elija la tabla que quiere ver o editar</option>
+	      <option hidden selected>Elija la tabla que quiere ver o editar</option>
 	      {% for table in tables %}
 	      <option value="{{table}}">{{table.0}}</option>
 	      {% endfor %}
