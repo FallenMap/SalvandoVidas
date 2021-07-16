@@ -16,7 +16,7 @@ mysql = MySQL(app)
 # settings
 app.secret_key = "mysecretkey"
 
-def Obtain_tables(data):
+def obtain_tables(data):
     tables = []
     for i in range(1,len(data)-1):
         list_permits = []
@@ -79,7 +79,7 @@ def user_perfil(perfil):
         cur.execute('SET ROLE ALL;')
         cur.execute('show grants for current_USER();')
         data = cur.fetchall()
-        list_data = Obtain_tables(data)
+        list_data = obtain_tables(data)
 
     return render_template('listtables.html', perfil = perfil, tables = list_data)
 
