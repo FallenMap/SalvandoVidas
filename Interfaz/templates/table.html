@@ -1,4 +1,34 @@
 {% extends "layout.html" %}
   {% block content %}
-    Hola mundo
+    <div class="container-fluid text-center justify-content-center align-items-center">
+      <div id="Titulo" class="row container-fluid py-4">
+	<h1>Tabla {{table}}</h1>
+      </div>
+      <div id="Tabla" class="row container-fluid px-5 py-5">
+	<table class="table border border-secondary rounded-3">
+	  <thead>
+	    <tr>
+	      {% for _title in titles %}
+		<th scope="col">{{_title}}</th>
+	      {% endfor %}
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {% for rows in content %}
+	      <tr>
+		{% for row in rows %}
+		  <td>{{row}}</td>
+		{% endfor %}
+	      </tr>
+	    {% endfor %}
+	  </tbody>
+	</table>
+      </div>
+      <div class="row container-fluid">
+	a
+      </div>
+      <div class="row container-fluid">
+	a
+      </div>
+    </div>
   {% endblock %}
