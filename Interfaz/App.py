@@ -134,7 +134,7 @@ def list_form(perfil):
             words.remove('')
         if len(words) == 2:
             return redirect("/table/" + words [0] + "/" + words [1])
-        if len(words) == 2:
+        if len(words) == 3:
             return redirect("/table/" + words [0] + "/" + words [1] + "/" + words [2])
 
     return redirect("/table/" + words [0] +"/"+ words [1] +"/"+ words [2] +"/"+ words [3] +"/"+ words [4])
@@ -146,6 +146,9 @@ def list_form(perfil):
 @app.route('/table/<table>/<permit1>/<permit2>/<permit3>/<permit4>')
 def table(table, permit1 = None, permit2 = None, permit3 = None, permit4 = None):
     permits = [permit1, permit2, permit3, permit4]
+    tables_filters = ['mascota']
+    if table in tables_filters:
+        permits.append('FILTER')
     cur = mysql.connection.cursor()
     cur.execute('SET ROLE ALL')
     cur.execute('Use salvandovidas')
@@ -155,7 +158,7 @@ def table(table, permit1 = None, permit2 = None, permit3 = None, permit4 = None)
     cur.execute('select * from {0}'.format(table))
     data = obtain_content(cur.fetchall())
     #print("contenido:\n\n", data)
-    return render_template('table.html', table = table.capitalize(), titles = titles, content = data)
+    return render_template('table.html',permits = permits, table = table.capitalize(), titles = titles, content = data)
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
