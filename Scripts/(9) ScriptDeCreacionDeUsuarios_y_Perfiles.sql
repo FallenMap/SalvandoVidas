@@ -20,7 +20,7 @@ CREATE ROLE Rescatista;
 -- Asignación de permisos a perfiles
 
 -- Permisos de perfil Administrador
-GRANT ALL PRIVILEGES ON SalvandoVidas TO Administrador;
+GRANT ALL PRIVILEGES ON SalvandoVidas.* TO Administrador;
 
 -- Permisos de perfil Publicista
 GRANT SELECT 			ON SalvandoVidas.Mascota 			TO Publicista;
