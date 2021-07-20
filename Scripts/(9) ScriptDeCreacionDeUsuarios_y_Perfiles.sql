@@ -31,12 +31,12 @@ GRANT ALL PRIVILEGES 	ON SalvandoVidas.Aplica 			TO Publicista;
 GRANT ALL PRIVILEGES 	ON SalvandoVidas.Contribuidor 		TO Publicista;
 GRANT SELECT 			ON SalvandoVidas.vw_NoAdopt 		TO Publicista;
 GRANT SELECT 			ON SalvandoVidas.vw_Horario 		TO Publicista;
-
+GRANT EXECUTE			ON  SalvandoVidas.* 				TO Publicista;
 -- Permisos de perfil Psicólogo
 GRANT SELECT 			ON SalvandoVidas.Candidato 		TO Psicologo;
 GRANT SELECT, UPDATE	ON SalvandoVidas.vw_Aptitud		TO Psicologo;
 GRANT SELECT 			ON SalvandoVidas.vw_Horario		TO Psicologo;
-
+GRANT EXECUTE			ON  SalvandoVidas.* 			TO Psicologo;
 -- Permisos de perfil Contador
 GRANT SELECT 			ON SalvandoVidas.Empleado 						TO Contador;
 GRANT SELECT 			ON SalvandoVidas.Candidato						TO Contador;
@@ -46,7 +46,7 @@ GRANT ALL PRIVILEGES 	ON SalvandoVidas.PagoEmpleado					TO Contador;
 GRANT ALL PRIVILEGES 	ON SalvandoVidas.PagoAdicionalEmpleado			TO Contador;
 GRANT ALL PRIVILEGES	ON SalvandoVidas.Economia						TO Contador;
 GRANT SELECT 			ON SalvandoVidas.vw_Horario						TO Contador;
-
+GRANT EXECUTE			ON  SalvandoVidas.* 							TO Contador;
 -- Permisos de perfil Veterinario
 GRANT ALL PRIVILEGES 	ON SalvandoVidas.Mascota 						TO Veterinario;
 GRANT ALL PRIVILEGES 	ON SalvandoVidas.TipoDeMascota 					TO Veterinario;
@@ -55,7 +55,7 @@ GRANT ALL PRIVILEGES	ON SalvandoVidas.Adopcion 						TO Veterinario;
 GRANT ALL PRIVILEGES 	ON SalvandoVidas.Aplica 						TO Veterinario;
 GRANT SELECT		 	ON SalvandoVidas.vw_NoAdopt 					TO Veterinario;
 GRANT SELECT 			ON SalvandoVidas.vw_Horario 					TO Veterinario;
-
+GRANT EXECUTE			ON  SalvandoVidas.* 							TO Veterinario;
 -- Permisos de perfil Candidato
 GRANT SELECT 			ON SalvandoVidas.Candidato 						TO Candidato;
 GRANT SELECT 			ON SalvandoVidas.Adopcion 						TO Candidato;
@@ -70,7 +70,7 @@ GRANT ALL PRIVILEGES 	ON SalvandoVidas.Mascota 						TO Rescatista;
 GRANT SELECT 			ON SalvandoVidas.TipoDeMascota 					TO Rescatista;
 GRANT SELECT		 	ON SalvandoVidas.vw_NoAdopt 					TO Rescatista;
 GRANT SELECT 			ON SalvandoVidas.vw_Horario 					TO Rescatista;
-
+GRANT EXECUTE			ON  SalvandoVidas.* 							TO Rescatista;
 -- Creación de usuarios
 DROP USER IF EXISTS 'admin'@'localhost', 'Anonimo'@'localhost';
 DROP USER IF EXISTS 'ANaranjo'@'localhost', 'MGarzon'@'localhost', 'FCastañeda'@'localhost', 'CCorrea'@'localhost', 'MGutierrez'@'localhost', 'BParra'@'localhost', 'CSandoval'@'localhost';
