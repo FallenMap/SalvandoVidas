@@ -1,4 +1,81 @@
 {% extends "layout.html" %}
   {% block content %}
-    Hola mundo
+    <div class="container-fluid text-center justify-content-center align-items-center">
+      <div id="Titulo" class="row container-fluid py-4">
+	<h1>Tabla {{table}}</h1>
+      </div>
+      <div id="Tabla" class="row container-fluid px-5 py-5">
+	<table class="table table-responsive-xxl table-striped border border-secondary rounded-3">
+	  <thead>
+	    <tr>
+	      {% for _title in titles %}
+		<th scope="col">{{_title}}</th>
+	      {% endfor %}
+	      {% if ('UPDATE' in permits) or ('DELETE' in permits) %}
+		<th class="border border-dark" scope="col">Operaciones</th>
+	      {% endif %}
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {% for rows in content %}
+	      <tr>
+		{% for row in rows %}
+		  <td>{{row}}</td>
+		{% endfor %}
+		{% if ('UPDATE' in permits) or ('DELETE' in permits) %}
+		  <td class="w-25 px-3 py-2 border border-secondary">
+		    <div class=" row">
+		    {% if ('UPDATE' in permits) %}
+		      <div class="col">
+			<a href="" class="btn btn-lg btn-light w-100 border">UPDATE</a>
+		      </div>
+		    {% endif %}
+		    {% if ('DELETE' in permits) %}
+		      <div class="col">
+			<a href="" class="btn btn-lg btn-light w-100 border">DELETE</a>
+		      </div>
+		    {% endif %}
+		    </div>
+		  </td>
+		{% endif %}
+	      </tr>
+	    {% endfor %}
+	  </tbody>
+	</table>
+      </div>
+      {% if ('INSERT' in permits) or ('FILTER' in permits) %}
+	<div class="row container-fluid">
+	  <div class="col-9">
+	    {% if ('FILTER' in permits) %}
+	      <form name="formulario de seleccion" action="{{url_for('list_form', perfil = perfil)}}" method="POST">
+		<div class="container-fluid px-1">
+		  <div class="row">
+		    <div class="col-9">
+		      <select class="form-select fs-6" name="option" aria-label="Default select example">
+			<option hidden selected>Elija la tabla que quiere ver o editar</option>
+			<option value=""></option>
+		      </select>
+		    </div>
+		    <div class="col">
+			<button id="btn-entrar" type="submit" class="btn btn-secondary btn-lg w-100">Filtrar</button>
+		    </div>
+		  </div>
+		</div>
+	      </form>
+	    {% endif %}
+	  </div>
+	  {% if ('INSERT' in permits) %}
+	  <div class="col">
+	    <a class="btn btn-secondary float-right btn-lg w-100"  href="">INSERTAR</a>
+	  </div>
+	  {% endif %}
+	</div>
+      {% endif %}
+      <div class="row container-fluid py-5">
+	<div class="col-9"></div>
+	<div class="col-sm container float-right">
+	  <a class="btn btn-secondary float-right btn-lg w-100"  href="javascript:history.back()">Atrás</a>
+	</div>
+      </div>
+    </div>
   {% endblock %}
