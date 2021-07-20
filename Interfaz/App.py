@@ -18,6 +18,13 @@ mysql = MySQL(app)
 # settings
 app.secret_key = "mysecretkey"
 
+def ForeignKeyExist(a, dato):
+    c = 0
+    for i in a:
+        if str(i[0]) == dato:
+            c += 1
+    return c
+
 def obtain_tables(data):
     '''
     Función que extrae las tablas y permisos a partir de
@@ -492,24 +499,18 @@ def insert(op, tab,nomid,idup):
             elif tab == 'Vw_aptitud':
                 datos.append(request.form[str(1)])
                 cur.callproc("proc_up_vw_aptitud",[idup,datos[0]])
-            mysql.connection.commit() 
-            return f'''<body bgcolor=gray>
+            mysql.connection.commit()
+            return f'''<body>
                     <br><br><br><br><center><font color=green face=tahoma><h2>Datos agregados correctamente
                     <br><br>
                     <a class="btn btn-secondary float-right btn-lg w-100"  href="javascript:history.back()">Atrás</a>
                         </body>'''
         except:
-            return f'''<body bgcolor=gray>
+            return f'''<body>
                     <br><br><br><br><center><font color=red face=tahoma><h2>{ms}
                     <br><br>
                     <a class="btn btn-secondary float-right btn-lg w-100"  href="javascript:history.back()">Atrás</a>
                         </body>'''
-def ForeignKeyExist(a, dato):
-    c = 0
-    for i in a:
-        if str(i[0]) == dato:
-            c += 1
-    return c
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
