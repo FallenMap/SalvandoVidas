@@ -1,0 +1,310 @@
+﻿<html>
+	<head>
+	<title> Formulario </title>
+
+	</head>
+	
+	<body bgcolor="gray" >
+		<br><br><br<br>
+		<form name=f1 action=/insert/{{op}}/{{tab}}/{{nomid}}/{{idup}} method=post enctype=multipart/form-data>
+		
+		<table align="center" width="600" height="500" border="0" bgcolor="darkgray" style="font-size:17;text-align:center;border-collapse: separate;
+            											border-spacing: 20;border: 1px solid black;border-radius: 50px;
+            											-moz-border-radius: 20px;padding: 12px;-webkit-border-radius: 10px;">
+		
+		<tr> 
+			{% if op == 'insert' %}
+			<td align="center" bgcolor="gray" colspan="2" style="font-size:25"> <b> Insertar datos {{tab}}</td>
+			{% endif %}
+			{% if op == 'update' %}
+			<td align="center" bgcolor="gray" colspan="2" style="font-size:25"> <b> Actualizar datos {{tab}}</td>
+			{% endif %}
+		</tr>
+		
+		<tr>
+			<td align="right" bgcolor="darkgray" style="font-family:'Tahoma'">
+			{% if tab == 'Candidato' %} 
+			Documento<br><br>
+			Nombre<br><br>
+			Apellido<br><br>
+			Fecha Nacimiento<br><br>
+			Residencia<br><br>
+			Ingreso<br><br>	
+			Estado<br><br>
+
+			</td>
+			<td align="center" bgcolor="darkgray"> 
+			<input name="0" type="text"  {% if op == 'update' %} value='{{datos.0.1}} {% endif %}' size=25><br><br>
+			<input name="1" type="text"  {% if op == 'update' %} value='{{datos.0.2}}  {% endif %}' size=25><br><br>
+			<input name="2" type="text"  {% if op == 'update' %} value='{{datos.0.3}} {% endif %}'  size=25><br><br>
+			<input name="3" placeholder="YYYY/MM/DD" {% if op == 'update' %} value = '{{datos.0.4}}' {% endif %} type="text"   size=25><br><br>
+			<input name="4" type="text" } {% if op == 'update' %} value='{{datos.0.5}}' {% endif %}  size=25><br><br>
+			<input name="5" type="text" {% if op == 'update' %} value='{{datos.0.6}}' {% endif %} size=25><br><br>
+			<select name="6"style="width: 59%">
+				{% if op == 'insert' %}
+				<option>Apto</option>
+				<option>No Apto</option>
+				<option selected>No Evaluado</option>
+				{% endif %}
+				{% if op == 'update' %}
+					{% if datos[0][7] == 'No Apto' %}
+					<option>Apto</option>
+					<option selected>No Apto</option>
+					<option>No evaluado</option>
+					{% endif %}
+					{% if datos[0][7] == 'No evaluado' %}
+					<option>Apto</option>
+					<option>No Apto</option>
+					<option selected>No evaluado</option>
+					{% endif %}
+					{% if datos[0][7] == 'Apto' %}
+					<option selected>Apto</option>
+					<option>No Apto</option>
+					<option>No evaluado</option>
+					{% endif %}
+				{% endif %}
+			</select><br><br>
+			</td>
+			{% endif %}
+
+			{% if tab == 'Adopcion' %} 
+			Aplicacion<br><br>
+			Empleado<br><br>
+
+			</td>
+			<td align="center" bgcolor="darkgray"> 
+			<input name="0" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} type="text" size=25><br><br>
+			<input name="1" {% if op == 'update' %} value='{{datos.0.2}}' {% endif %} type="text" size=25><br><br>
+			</td>
+			{% endif %}
+
+			
+			{% if tab == 'Aplica' %} 
+			Candidato<br><br>
+			Mascota<br><br>
+
+			</td>
+			<td align="center" bgcolor="darkgray"> 
+			<input name="0" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} type="text" size=25><br><br>
+			<input name="1" {% if op == 'update' %} value='{{datos.0.2}}' {% endif %} type="text" size=25><br><br>
+			</td>
+			{% endif %}
+
+			
+			{% if tab == 'Contribuidor' %} 
+			Documento<br><br>
+			Nombre<br><br>
+			Apellido<br><br>
+			Fecha Nacimiento<br><br>
+			Labor<br><br>
+			Foto<br><br>	
+
+			</td>
+			<td align="center" bgcolor="darkgray"> 
+			<input name="0" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} type="text" size=25><br><br>
+			<input name="1" {% if op == 'update' %} value='{{datos.0.2}}' {% endif %} type="text" size=25><br><br>
+			<input name="2" {% if op == 'update' %} value='{{datos.0.3}}' {% endif %} type="text" size=25><br><br>
+			<input name="3" {% if op == 'update' %} value='{{datos.0.4}}' {% endif %} placeholder="YYYY/MM/DD" type="text" size=25><br><br>
+			<input name="4" {% if op == 'update' %} value='{{datos.0.5}}' {% endif %} type="text" size=25><br><br>
+			<input name="5" {% if op == 'update' %} value='{{datos.0.6}}' {% endif %} type="file" accept="image/png, .jpeg, .jpg, image/gif" style="width:130"><br><br>
+			</td>
+			{% endif %}
+
+			{% if tab == 'Donacion' %} 
+			Num. Donacion<br><br>
+			Valor<br><br>
+			Lugar<br><br>
+			Contribuidor<br><br>
+
+			</td>
+			<td align="center" bgcolor="darkgray"> 
+			<input name="0" {% if op == 'update' %} value='{{datos.0.0}}' {% endif %} type="text" size=25><br><br>
+			<input name="1" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} type="text" size=25><br><br>
+			<input name="2" {% if op == 'update' %} value='{{datos.0.2}}' {% endif %} type="text" size=25><br><br>
+			<input name="3" {% if op == 'update' %} value='{{datos.0.3}}' {% endif %} type="text" size=25><br><br>
+			</td>
+			{% endif %}	
+
+			{% if tab == 'Empleado' %} 
+			Documento<br><br>
+			Nombre<br><br>
+			Apellido<br><br>
+			Fecha Nacimiento<br><br>
+			Funcion<br><br>
+
+			</td>
+			<td align="center" bgcolor="darkgray"> 
+			<input name="0" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} type="text" size=25><br><br>
+			<input name="1" {% if op == 'update' %} value='{{datos.0.2}}' {% endif %} type="text" size=25><br><br>
+			<input name="2" {% if op == 'update' %} value='{{datos.0.3}}' {% endif %} type="text" size=25><br><br>
+			<input name="3" {% if op == 'update' %} value='{{datos.0.4}}' {% endif %} placeholder="YYYY/MM/DD" type="text" size=25><br><br>
+			<input name="4" {% if op == 'update' %} value='{{datos.0.5}}' {% endif %} type="text" size=25><br><br>
+			</td>
+			{% endif %}	
+
+			{% if tab == 'Funcion' %} 
+			Nombre<br><br>
+			Descripcion<br><br>
+			Horario 1<br><br>
+			Horario 2<br><br>
+			Pago<br><br>
+
+			</td>
+			<td align="center" bgcolor="darkgray"> 
+			<input name="0" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} type="text" size=25><br><br>
+			<input name="1" {% if op == 'update' %} value='{{datos.0.2}}' {% endif %} type="text" size=25><br><br>
+			<input name="2" {% if op == 'update' %} value='{{datos.0.3}}' {% endif %} type="text" size=25><br><br>
+			<input name="3" {% if op == 'update' %} value='{{datos.0.4}}' {% endif %} type="text" size=25><br><br>
+			<input name="4" {% if op == 'update' %} value='{{datos.0.5}}' {% endif %} type="text" size=25><br><br>
+			</td>
+			{% endif %}
+
+			{% if tab == 'Mascota' %} 
+			Tipo<br><br>
+			Color<br><br>
+			Sexo<br><br>
+			Descripcion<br><br>
+			Foto<br><br>	
+
+			</td>
+			<td align="center" bgcolor="darkgray"> 
+			<input name="0" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} type="text" size=25><br><br>
+			<input name="1" {% if op == 'update' %} value='{{datos.0.2}}' {% endif %} type="text" size=25><br><br>
+			<select name="2" style="width: 59%">
+				{% if op == 'insert' %}
+				<option selected>Macho</option>
+				<option>Hembra</option>
+				{% endif %}
+				{% if op == 'update' %}
+					{% if datos[0][3] == 'Macho' %}
+						<option selected>Macho</option>
+						<option>Hembra</option>
+					{% endif %}
+					{% if datos[0][3] == 'Hembra' %}
+						<option>Macho</option>
+						<option selected>Hembra</option>
+					{% endif %}
+				{% endif %}
+			</select><br><br>
+			<input name="3" {% if op == 'update' %} value='{{datos.0.4}}' {% endif %} type="text" size=25><br><br>
+			<input name="4" {% if op == 'update' %} value='{{datos.0.5}}' {% endif %} type="file" accept="image/png, .jpeg, .jpg, image/gif" style="width:130"><br><br>
+			</td>
+			{% endif %}
+
+			{% if tab == 'Pagoadicionalempleado' %} 
+			Valor<br><br>
+			Descripcion<br><br>
+
+			</td>
+			<td align="center" bgcolor="darkgray"> 
+			<input name="0" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} type="text" size=25><br><br>
+			<input name="1" {% if op == 'update' %} value='{{datos.0.2}}' {% endif %} type="text" size=25><br><br>
+			</td>
+			{% endif %}
+
+			{% if tab == 'Pagoempleado' %} 
+			Num. Pago<br><br>
+			Empleado<br><br>
+			Pago Adicional<br><br>
+			</td>
+			<td align="center" bgcolor="darkgray"> 
+			<input name="0" {% if op == 'update' %} value='{{datos.0.0}}' {% endif %} type="text" size=25><br><br>
+			<input name="1" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} type="text" size=25><br><br>
+			<input name="2" {% if op == 'update' %} value='{{datos.0.2}}' {% endif %} type="text" size=25><br><br>
+			</td>
+			{% endif %}
+
+			{% if tab == 'Tipodemascota' %} 
+			Habitat<br><br>
+			Denominacion<br><br>
+			Generalidades<br><br>
+			Alimento<br><br>
+			Foto<br><br>
+			</td>
+			<td align="center" bgcolor="darkgray"> 
+			<select name="0" style="width: 62%">
+				{% if op == 'insert' %}
+				<option selected>Tierra</option>
+				<option>Agua</option>
+				<option>Aire</option>
+				{% endif %}
+				{% if op == 'update' %}
+					{% if datos[0][1] == 'Tierra' %}
+						<option selected>Tierra</option>
+						<option>Agua</option>
+						<option>Aire</option>
+					{% endif %}
+					{% if datos[0][1] == 'Agua' %}
+						<option>Tierra</option>
+						<option selected>Agua</option>
+						<option>Aire</option>
+					{% endif %}
+					{% if datos[0][1] == 'Aire' %}
+						<option>Tierra</option>
+						<option>Agua</option>
+						<option selected>Aire</option>
+					{% endif %}
+				{% endif %}
+			</select><br><br>
+			<input name="1" {% if op == 'update' %} value='{{datos.0.2}}' {% endif %} type="text" size=25><br><br>
+			<input name="2" {% if op == 'update' %} value='{{datos.0.3}}' {% endif %} type="text" size=25><br><br>
+			<input name="3" {% if op == 'update' %} value='{{datos.0.4}}' {% endif %} type="text" size=25><br><br>
+			<input name="4" {% if op == 'update' %} value='{{datos.0.5}}' {% endif %} type="file" accept="image/png, .jpeg, .jpg, image/gif" style="width:130"><br><br>
+			</td>
+			{% endif %}
+			{% if tab == 'Vw_aptitud' %}
+				ID<br><br>
+				Aptitud<br><br>
+				</td>
+			<td align="center" bgcolor="darkgray"> 
+			<input name="0" type="text" {% if op == 'update' %} value='{{datos.0.0}}' readonly="readonly" {% endif %} size=25><br><br>
+			<select name="1"style="width: 52%">
+				{% if op == 'insert' %}
+				<option>Apto</option>
+				<option>No Apto</option>
+				<option selected>No Evaluado</option>
+				{% endif %}
+				{% if op == 'update' %}
+					{% if datos[0][1] == 'No Apto' %}
+					<option>Apto</option>
+					<option selected>No Apto</option>
+					<option>No evaluado</option>
+					{% endif %}
+					{% if datos[0][1] == 'No evaluado' %}
+					<option>Apto</option>
+					<option>No Apto</option>
+					<option selected>No evaluado</option>
+					{% endif %}
+					{% if datos[0][1] == 'Apto' %}
+					<option selected>Apto</option>
+					<option>No Apto</option>
+					<option>No evaluado</option>
+					{% endif %}
+
+				{% endif %}
+			</select><br><br>
+			{% endif %}
+		</tr>		
+		
+		<tr>
+		   <form name=f2 method=post action=/insert/{{op}}/{{tab}}/{{nomid}}/{{idup}}>
+			<td align="center" bgcolor="gray" colspan="2">
+			{% if op == 'insert' %} 
+			<input name="Agregar" type="submit" style="font-size:20px;width:180" value="Agregar Datos"><br><br>
+			{% endif %}
+			{% if op == 'update' %} 
+			<input name="Actualizar" type="submit" style="font-size:20px;width:180" value="Actualizar Datos"><br><br>
+			{% endif %}
+			</form>
+			<a class="btn btn-secondary float-right btn-lg w-100"  href="javascript:history.back()">Atrás</a>
+		
+		</tr>
+		
+		
+		
+		
+		</table>
+		
+	
+	</body>
+</html>
