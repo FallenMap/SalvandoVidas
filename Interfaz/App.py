@@ -106,9 +106,20 @@ def user_perfil(perfil):
         cur.execute('show tables from salvandovidas;')
         data = cur.fetchall()
         list_data = list(data)
+        list_select_tables = ['economia', 'vw_aptitud', 'vw_horario', 'vw_noadopt']
+        list_update_tables = ['vw_aptitud']
         for i in range(0,len(list_data)):
+            print(list_data[i][0])
             list_data[i] = list(list_data[i])
-            list_data[i].append(['SELECT', 'UPDATE', 'INSERT', 'DELETE'])
+            if list_data[i][0] in list_select_tables:
+                list_permits_tmp = []
+                list_permits_tmp.append('SELECT')
+                if list_data[i][0] in list_update_tables:
+                    list_permits_tmp.append('UPDATE')
+                list_data[i].append(list_permits_tmp)
+            else:
+                list_data[i].append(['SELECT', 'UPDATE', 'INSERT', 'DELETE'])
+
             list_data[i] = tuple(list_data[i])
     else:
         if perfil == "Invitado":
