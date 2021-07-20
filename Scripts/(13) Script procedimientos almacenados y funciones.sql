@@ -425,7 +425,7 @@ begin
     declare existe_id int;
     select count(*) into existe_id from vw_aptitud where can_ID = id;
     if existe_id = 1 then
-		if estado = 'Aplica' or estado = 'No aplica' or estado = 'No evaluado' then
+		if estado = 'Apto' or estado = 'No Apto' or estado = 'No evaluado' then
 			update vw_aptitud set can_Estado = estado where can_ID = id;
 		end if;  
 	end if;
