@@ -1,0 +1,539 @@
+﻿{% extends "layout.html" %}
+  {% block content %}
+  <div class="m-0 py-4 vh-100 row justify-content-center align-items-center">
+    <div class="col-auto">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category,message in messages %}
+	<div class=" alert {% if category == "error" %} alert-danger{% elif category == "correcto" %} alert-success {% endif %}  fade show" role="alert">
+      {{ message }}
+	</div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="p-5 text-center border border-secondary rounded-3">
+	<div class="container-fluid px-1 py-3">
+	  {% if op == 'insert' %}
+	    <h1 class="display-6">Insertar datos {{tab}}</h1>
+	  {% endif %}
+	  {% if op == 'update' %}
+	    <h1 class="display-6">Actualizar datos {{tab}}</h1>
+	  {% endif %}
+	</div>
+	<form name=f1 action=/insert/{{op}}/{{tab}}/{{nomid}}/{{idup}} method=post enctype=multipart/form-data>
+	      {% if tab == 'Candidato' %} 
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Documento</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="0" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Nombre</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="1" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.2}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Apellido</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="2" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.3}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Fecha Nacimiento</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="3" type="text" placeholder="YYYY/MM/DD"  class="form-control" {% if op == 'update' %} value='{{datos.0.4}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Residencia</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="4" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.5}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Ingreso</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="5" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.6}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Estado</label>
+		  </div>
+		  <div class="col-auto">
+		    <select name="6" class="form-select" aria-label="Default select example">
+		      {% if op == 'insert' %}
+		      <option selected>No Evaluado</option>
+		      <option>Apto</option>
+		      <option>No Apto</option>
+		      {% endif %}
+		      {% if op == 'update' %}
+			{% if datos[0][7] == 'No Apto' %}
+			<option>Apto</option>
+			<option selected>No Apto</option>
+			<option>No evaluado</option>
+			{% endif %}
+			{% if datos[0][7] == 'No evaluado' %}
+			<option>Apto</option>
+			<option>No Apto</option>
+			<option selected>No evaluado</option>
+			{% endif %}
+			{% if datos[0][7] == 'Apto' %}
+			<option selected>Apto</option>
+			<option>No Apto</option>
+			<option>No evaluado</option>
+			{% endif %}
+		      {% endif %}
+		    </select>
+		  </div>
+		</div>
+	      {% endif %}
+
+	      {% if tab == 'Adopcion' %} 
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Aplicacion</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="0" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Empleado</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="1" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.2}}' {% endif %} size=25>
+		  </div>
+		</div>
+	      {% endif %}
+
+			  
+	      {% if tab == 'Aplica' %} 
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Candidato</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="0" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Mascota</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="1" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.2}}' {% endif %} size=25>
+		  </div>
+		</div>
+	      {% endif %}
+
+	      {% if tab == 'Contribuidor' %} 
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Documento</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="0" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Nombre</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="1" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.2}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Apellido</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="2" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.3}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Fecha Nacimiento</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="3" type="text" placeholder="YYYY/MM/DD"  class="form-control" {% if op == 'update' %} value='{{datos.0.4}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Labor</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="4" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.5}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Foto</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="5" type="file" class="form-control" {% if op == 'update' %} value='{{datos.0.6}}'  {% endif %} accept="image/png, .jpeg, .jpg, image/gif" size=25>
+		  </div>
+		</div>
+	      {% endif %}
+
+	      {% if tab == 'Donacion' %} 
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Num. Donacion</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="0" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.0}}' {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Valor</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="1" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.1}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Lugar</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="2" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.2}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Contribuidor</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="3" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.3}}'  {% endif %} size=25>
+		  </div>
+		</div>
+	      {% endif %}	
+
+	      {% if tab == 'Empleado' %} 
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Documento</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="0" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Nombre</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="1" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.2}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Apellido</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="2" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.3}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Fecha Nacimiento</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="3" type="text" placeholder="YYYY/MM/DD"  class="form-control" {% if op == 'update' %} value='{{datos.0.4}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Funcion</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="4" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.5}}'  {% endif %} size=25>
+		  </div>
+		</div>
+	      {% endif %}	
+
+	      {% if tab == 'Funcion' %} 
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Nombre</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="0" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Descripcion</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="1" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.2}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Horario 1</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="2" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.3}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Horario 2</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="3" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.4}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Pago</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="4" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.5}}'  {% endif %} size=25>
+		  </div>
+		</div>
+	      {% endif %}
+
+	      {% if tab == 'Mascota' %} 
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Tipo</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="0" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Color</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="1" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.2}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Sexo</label>
+		  </div>
+		  <div class="col-auto">
+		    <select name="2" class="form-select" aria-label="Default select example">
+		    {% if op == 'insert' %}
+		    <option selected>Macho</option>
+		    <option>Hembra</option>
+		    {% endif %}
+		    {% if op == 'update' %}
+		      {% if datos[0][3] == 'Macho' %}
+			<option selected>Macho</option>
+			<option>Hembra</option>
+		      {% endif %}
+		      {% if datos[0][3] == 'Hembra' %}
+			<option>Macho</option>
+			<option selected>Hembra</option>
+		      {% endif %}
+		    {% endif %}
+		    </select>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Descripcion</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="3" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.4}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Foto</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="4" type="file" class="form-control" {% if op == 'update' %} value='{{datos.0.5}}'  {% endif %} accept="image/png, .jpeg, .jpg, image/gif" size=25>
+		  </div>
+		</div>
+	      {% endif %}
+
+	      {% if tab == 'Pagoadicionalempleado' %} 
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Valor</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="0" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.1}}' {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Descripcion</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="1" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.2}}'  {% endif %} size=25>
+		  </div>
+		</div>
+	      {% endif %}
+
+	      {% if tab == 'Pagoempleado' %} 
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Num. Pago</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="0" type="text" class="form-control" {% if op == 'update' %} value='{{datos.0.0}}' {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Empleado</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="1" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.1}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Pago Adicional</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="2" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.2}}'  {% endif %} size=25>
+		  </div>
+		</div>
+	      {% endif %}
+
+	      {% if tab == 'Tipodemascota' %} 
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Habitat</label>
+		  </div>
+		  <div class="col-auto">
+		    <select name="0" class="form-select" aria-label="Default select example">
+		    {% if op == 'insert' %}
+		      <option selected>Tierra</option>
+		      <option>Agua</option>
+		      <option>Aire</option>
+		    {% endif %}
+		    {% if op == 'update' %}
+		      {% if datos[0][1] == 'Tierra' %}
+			<option selected>Tierra</option>
+			<option>Agua</option>
+			<option>Aire</option>
+		      {% endif %}
+		      {% if datos[0][1] == 'Agua' %}
+			<option>Tierra</option>
+			<option selected>Agua</option>
+			<option>Aire</option>
+		      {% endif %}
+		      {% if datos[0][1] == 'Aire' %}
+			<option>Tierra</option>
+			<option>Agua</option>
+			<option selected>Aire</option>
+		      {% endif %}
+		    {% endif %}
+		    </select>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Denominacion</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="1" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.2}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Generalidades</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="2" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.3}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Generalidades</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="3" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.4}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Foto</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="2" type="file"  class="form-control" {% if op == 'update' %} value='{{datos.0.5}}'  {% endif %} accept="image/png, .jpeg, .jpg, image/gif" size=25>
+		  </div>
+		</div>
+	      {% endif %}
+
+	      {% if tab == 'Vw_aptitud' %}
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">ID</label>
+		  </div>
+		  <div class="col-auto">
+		    <input name="0" type="text"  class="form-control" {% if op == 'update' %} value='{{datos.0.0}}'  {% endif %} size=25>
+		  </div>
+		</div>
+		<div class="row justify-content-between py-2 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label class="col-form-label">Aptitud</label>
+		  </div>
+		  <div class="col-auto">
+		    <select name="1" class="form-select" aria-label="Default select example">
+		      {% if op == 'insert' %}
+		      <option>Apto</option>
+		      <option>No Apto</option>
+		      <option selected>No Evaluado</option>
+		      {% endif %}
+		      {% if op == 'update' %}
+			{% if datos[0][1] == 'No Apto' %}
+			<option>Apto</option>
+			<option selected>No Apto</option>
+			<option>No evaluado</option>
+			{% endif %}
+			{% if datos[0][1] == 'No evaluado' %}
+			<option>Apto</option>
+			<option>No Apto</option>
+			<option selected>No evaluado</option>
+			{% endif %}
+			{% if datos[0][1] == 'Apto' %}
+			<option selected>Apto</option>
+			<option>No Apto</option>
+			<option>No evaluado</option>
+			{% endif %}
+		      {% endif %}
+		    </select>
+		  </div>
+		</div>
+	      {% endif %}
+	  <div class="row py-2 g-3 align-items-center">
+	    <input name="Agregar" type="submit" class="btn border btn-lg w-100 btn-light" value="{% if op == 'insert' %}Agregar Datos {% elif op == 'update' %}Actualizar Datos{% endif %}">
+	  </div>
+	  <div class="row py-2 g-3 align-items-center">
+	    <a class="btn btn-secondary btn-lg w-100"  href="/table/{{perfil}}/{{tab}}/{{permits.0}}/{{permits.1}}/{{permits.2}}/{{permits.3}}">Atrás</a>
+	  </div>
+	</tr>
+	</form>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

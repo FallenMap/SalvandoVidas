@@ -27,7 +27,9 @@
 		    <div class=" row">
 		    {% if ('UPDATE' in permits) %}
 		      <div class="col">
-			<a href="" class="btn btn-lg btn-light w-100 border">UPDATE</a>
+			<form name="Insertar" action="{{url_for('add', op = 'update', tab = table, nomid = titles[0], idup = rows[0])}}">
+				<button id="btn-entrar" type="submit" class="btn btn-lg btn-light w-100 border">UPDATE</a>
+			</form>
 		      </div>
 		    {% endif %}
 		    {% if ('DELETE' in permits) %}
@@ -66,7 +68,10 @@
 	  </div>
 	  {% if ('INSERT' in permits) %}
 	  <div class="col">
-	    <a class="btn btn-secondary float-right btn-lg w-100"  href="">INSERTAR</a>
+	    <form name="Insertar" action="{{url_for('add', op = 'insert', tab = table, nomid = titles[0], idup = 0)}}">
+	    <button id="btn-entrar" type="submit" class="btn btn-secondary btn-lg w-100">INSERTAR</button>
+	  </div>
+	</form>
 	  </div>
 	  {% endif %}
 	</div>
@@ -74,7 +79,7 @@
       <div class="row container-fluid py-5">
 	<div class="col-9"></div>
 	<div class="col-sm container float-right">
-	  <a class="btn btn-secondary float-right btn-lg w-100"  href="javascript:history.back()">Atrás</a>
+	  <a class="btn btn-secondary float-right btn-lg w-100"  href="/user/{{perfil}}">Atrás</a>
 	</div>
       </div>
     </div>
