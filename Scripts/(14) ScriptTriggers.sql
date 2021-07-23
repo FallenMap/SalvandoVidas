@@ -119,11 +119,20 @@ DELIMITER ;
 -- PagoEmpleado
 
 ALTER TABLE pagoempleado
-DROP CONSTRAINT pagoempleado_ibfk_1;
+DROP CONSTRAINT pagoempleado_ibfk_2;
 
 ALTER TABLE pagoempleado
 ADD CONSTRAINT
 FOREIGN KEY (emp_ID) REFERENCES empleado (emp_ID)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
+ALTER TABLE pagoempleado
+DROP CONSTRAINT pagoempleado_ibfk_1;
+
+ALTER TABLE pagoempleado
+ADD CONSTRAINT
+FOREIGN KEY (pad_ID) REFERENCES PagoAdicionalEmpleado (pad_ID)
 ON DELETE CASCADE
 ON UPDATE CASCADE;
 
