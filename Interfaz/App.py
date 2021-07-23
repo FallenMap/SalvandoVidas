@@ -76,7 +76,7 @@ def obtain_content(content):
     '''
     list_content = list(content)
     for i in range(len(list_content)):
-        list_content[i] = list(list_content[i])  
+        list_content[i] = list(list_content[i])
         for k in range(len(list_content[i])):
             if isinstance(list_content[i][k], datetime.date):
                 t = list_content[i][k]
@@ -169,7 +169,7 @@ def table(table, perfil, permit1 = None, permit2 = None, permit3 = None, permit4
     table_global = table
     permits = [permit1, permit2, permit3, permit4]
     permits_global = permits
-    tables_filters = ['mascota']
+    tables_filters = ['mascota', 'Mascota']
     if table in tables_filters:
         permits.append('FILTER')
     cur = mysql.connection.cursor()
@@ -194,6 +194,22 @@ def add(op,tab,nomid,idup):
         datos =  cur.fetchall()
     global permits_global, perfil_global
     return render_template('add.html', perfil = perfil_global, permits = permits_global, op = op,tab=tab, datos = datos, nomid = nomid, idup=idup)
+
+@app.route('/delete_fila/<id>/<perfil>/<permits>/<table>/<nombre_id>')
+def delete_fila(id,perfil,permits,table,nombre_id):
+    cur = mysql.connection.cursor()
+    cur.execute('SET ROLE ALL')
+    cur.execute('USE salvandovidas')
+
+    cur.execute(f'DELETE FROM {table} WHERE {nombre_id} = {id}')
+
+    cur.execute('show columns from {0}'.format(table))
+    titles = obtain_titles(cur.fetchall())
+    cur.execute('select * from {0}'.format(table))
+    data = obtain_content(cur.fetchall())
+
+    mysql.connection.commit()
+    return render_template('table.html', perfil = perfil, permits = permits, table = table, titles = titles, content = data)
 
 @app.route('/insert/<op>/<tab>/<nomid>/<idup>', methods=['POST'])
 def insert(op, tab,nomid,idup):
@@ -258,7 +274,7 @@ def insert(op, tab,nomid,idup):
                         mysql.connection.commit()
                     else:
                         raise
-                if (ForeignKeyExist(tip,datos[0]) != 0 or ForeignKeyExist(tip2,datos[0])) == 0 and v: 
+                if (ForeignKeyExist(tip,datos[0]) != 0 or ForeignKeyExist(tip2,datos[0])) == 0 and v:
                     ms = 'No ha ingresado una aplicacion valida'
                     raise
                 elif ForeignKeyExist(tip1,datos[1]) == 0:
@@ -419,7 +435,7 @@ def insert(op, tab,nomid,idup):
                 tip = cur.fetchall()
                 if ForeignKeyExist(tip,datos[0]) == 0:
                     ms = 'No existe el tipo de mascota ' + datos[0]
-                    raise 
+                    raise
                 elif datos[1] == '':
                     ms = 'No ha insertado un color'
                     raise

@@ -127,6 +127,15 @@ FOREIGN KEY (emp_ID) REFERENCES empleado (emp_ID)
 ON DELETE CASCADE
 ON UPDATE CASCADE;
 
+ALTER TABLE pagoempleado
+DROP CONSTRAINT pagoempleado_ibfk_1;
+
+ALTER TABLE pagoempleado
+ADD CONSTRAINT
+FOREIGN KEY (pad_ID) REFERENCES PagoAdicionalEmpleado (pad_ID)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
 DROP TRIGGER IF EXISTS tr_pagoempleado_binsert;
 DELIMITER |
 CREATE TRIGGER tr_pagoempleado_binsert BEFORE INSERT ON pagoempleado
