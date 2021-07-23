@@ -119,7 +119,7 @@ DELIMITER ;
 -- PagoEmpleado
 
 ALTER TABLE pagoempleado
-DROP CONSTRAINT pagoempleado_ibfk_1;
+DROP CONSTRAINT pagoempleado_ibfk_2;
 
 ALTER TABLE pagoempleado
 ADD CONSTRAINT
