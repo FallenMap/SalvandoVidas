@@ -169,7 +169,7 @@ def table(table, perfil, permit1 = None, permit2 = None, permit3 = None, permit4
     table_global = table
     permits = [permit1, permit2, permit3, permit4]
     permits_global = permits
-    tables_filters = ['mascota']
+    tables_filters = ['mascota', 'Mascota']
     if table in tables_filters:
         permits.append('FILTER')
     cur = mysql.connection.cursor()
