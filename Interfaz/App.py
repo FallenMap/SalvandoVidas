@@ -195,17 +195,13 @@ def add(op,tab,nomid,idup):
     global permits_global, perfil_global
     return render_template('add.html', perfil = perfil_global, permits = permits_global, op = op,tab=tab, datos = datos, nomid = nomid, idup=idup)
 
-@app.route('/delete_fila/<id>/<perfil>/<permits>/<table>')
-def delete_fila(id,perfil,permits,table):
+@app.route('/delete_fila/<id>/<perfil>/<permits>/<table>/<nombre_id>')
+def delete_fila(id,perfil,permits,table,nombre_id):
     cur = mysql.connection.cursor()
     cur.execute('SET ROLE ALL')
     cur.execute('USE salvandovidas')
 
-    if table.upper() == 'PAGOADICIONALEMPLEADO':
-        idString = 'pad_ID'
-    else:
-        idString = table[0]+table[1]+table[2]+'_ID'
-    cur.execute(f'DELETE FROM {table} WHERE {idString} = {id}')
+    cur.execute(f'DELETE FROM {table} WHERE {nombre_id} = {id}')
 
     cur.execute('show columns from {0}'.format(table))
     titles = obtain_titles(cur.fetchall())
