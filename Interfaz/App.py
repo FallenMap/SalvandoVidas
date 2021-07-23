@@ -18,6 +18,13 @@ mysql = MySQL(app)
 # settings
 app.secret_key = "mysecretkey"
 
+def ForeignKeyExist(a, dato):
+    c = 0
+    for i in a:
+        if str(i[0]) == dato:
+            c += 1
+    return c
+
 def obtain_tables(data):
     '''
     Función que extrae las tablas y permisos a partir de
@@ -69,7 +76,7 @@ def obtain_content(content):
     '''
     list_content = list(content)
     for i in range(len(list_content)):
-        list_content[i] = list(list_content[i])  
+        list_content[i] = list(list_content[i])
         for k in range(len(list_content[i])):
             if isinstance(list_content[i][k], datetime.date):
                 t = list_content[i][k]
@@ -111,7 +118,6 @@ def user_perfil(perfil):
         list_select_tables = ['economia', 'vw_aptitud', 'vw_horario', 'vw_noadopt']
         list_update_tables = ['vw_aptitud']
         for i in range(0,len(list_data)):
-            print(list_data[i][0])
             list_data[i] = list(list_data[i])
             if list_data[i][0] in list_select_tables:
                 list_permits_tmp = []
@@ -146,19 +152,23 @@ def list_form(perfil):
         while '' in words:
             words.remove('')
         if len(words) == 2:
-            return redirect("/table/" + words [0] + "/" + words [1])
+            return redirect("/table/" + perfil + "/" + words [0] + "/" + words [1])
         if len(words) == 3:
-            return redirect("/table/" + words [0] + "/" + words [1] + "/" + words [2])
+            return redirect("/table/" + perfil + "/" + words [0] + "/" + words [1] + "/" + words [2])
 
-    return redirect("/table/" + words [0] +"/"+ words [1] +"/"+ words [2] +"/"+ words [3] +"/"+ words [4])
+    return redirect("/table/" + perfil + "/" + words [0] +"/"+ words [1] +"/"+ words [2] +"/"+ words [3] +"/"+ words [4])
 
-@app.route('/table/<table>')
-@app.route('/table/<table>/<permit1>')
-@app.route('/table/<table>/<permit1>/<permit2>')
-@app.route('/table/<table>/<permit1>/<permit2>/<permit3>')
-@app.route('/table/<table>/<permit1>/<permit2>/<permit3>/<permit4>')
-def table(table, permit1 = None, permit2 = None, permit3 = None, permit4 = None):
+@app.route('/table/<perfil>/<table>')
+@app.route('/table/<perfil>/<table>/<permit1>')
+@app.route('/table/<perfil>/<table>/<permit1>/<permit2>')
+@app.route('/table/<perfil>/<table>/<permit1>/<permit2>/<permit3>')
+@app.route('/table/<perfil>/<table>/<permit1>/<permit2>/<permit3>/<permit4>')
+def table(table, perfil, permit1 = None, permit2 = None, permit3 = None, permit4 = None):
+    global table_global, permits_global, perfil_global
+    perfil_global = perfil
+    table_global = table
     permits = [permit1, permit2, permit3, permit4]
+    permits_global = permits
     tables_filters = ['mascota']
     if table in tables_filters:
         permits.append('FILTER')
@@ -171,9 +181,9 @@ def table(table, permit1 = None, permit2 = None, permit3 = None, permit4 = None)
     cur.execute('select * from {0}'.format(table))
     data = obtain_content(cur.fetchall())
     #print("contenido:\n\n", data)
-    return render_template('table.html',permits = permits, table = table.capitalize(), titles = titles, content = data)
+    return render_template('table.html',perfil = perfil, permits = permits, table = table.capitalize(), titles = titles, content = data)
 
-@app.route('/add/<op>/<tab>/<nomid>/<idup>', methods=['POST'])
+@app.route('/add/<op>/<tab>/<nomid>/<idup>')
 def add(op,tab,nomid,idup):
     datos = []
     cur = mysql.connection.cursor()
@@ -182,7 +192,28 @@ def add(op,tab,nomid,idup):
     if op == 'update':
         cur.execute(f'select * from {tab} where {nomid} = {idup}')
         datos =  cur.fetchall()
-    return render_template('add.html',op = op,tab=tab, datos = datos, nomid = nomid, idup=idup)
+    global permits_global, perfil_global
+    return render_template('add.html', perfil = perfil_global, permits = permits_global, op = op,tab=tab, datos = datos, nomid = nomid, idup=idup)
+
+@app.route('/delete_fila/<id>/<perfil>/<permits>/<table>')
+def delete_fila(id,perfil,permits,table):
+    cur = mysql.connection.cursor()
+    cur.execute('SET ROLE ALL')
+    cur.execute('USE salvandovidas')
+
+    if table.upper() == 'PAGOADICIONALEMPLEADO':
+        idString = 'pad_ID'
+    else:
+        idString = table[0]+table[1]+table[2]+'_ID'
+    cur.execute(f'DELETE FROM {table} WHERE {idString} = {id}')
+
+    cur.execute('show columns from {0}'.format(table))
+    titles = obtain_titles(cur.fetchall())
+    cur.execute('select * from {0}'.format(table))
+    data = obtain_content(cur.fetchall())
+
+    mysql.connection.commit()
+    return render_template('table.html', perfil = perfil, permits = permits, table = table, titles = titles, content = data)
 
 @app.route('/insert/<op>/<tab>/<nomid>/<idup>', methods=['POST'])
 def insert(op, tab,nomid,idup):
@@ -192,6 +223,7 @@ def insert(op, tab,nomid,idup):
         cur.execute('Use salvandovidas')
         datos = []
         try:
+            #candidato
             if tab == 'Candidato':
                 for i in range(7):
                     datos.append(request.form[str(i)])
@@ -219,6 +251,7 @@ def insert(op, tab,nomid,idup):
                     cur.execute('insert into Candidato (can_Documento,can_Nombre,can_Apellido,can_Fecha,can_Residencia,can_Ingreso,can_Estado) values (%s,%s,%s,%s,%s,%s,%s)',(datos[0],datos[1],datos[2],datos[3],datos[4],datos[5],datos[6]))
                 elif op == 'update':
                     cur.callproc("proc_up_candidato",[idup,datos[0],datos[1],datos[2],datos[3],datos[4],datos[5],datos[6]])
+            #adopcion
             elif tab == 'Adopcion':
                 for i in range(2):
                     datos.append(request.form[str(i)])
@@ -245,7 +278,7 @@ def insert(op, tab,nomid,idup):
                         mysql.connection.commit()
                     else:
                         raise
-                if (ForeignKeyExist(tip,datos[0]) != 0 or ForeignKeyExist(tip2,datos[0])) == 0 and v: 
+                if (ForeignKeyExist(tip,datos[0]) != 0 or ForeignKeyExist(tip2,datos[0])) == 0 and v:
                     ms = 'No ha ingresado una aplicacion valida'
                     raise
                 elif ForeignKeyExist(tip1,datos[1]) == 0:
@@ -256,6 +289,7 @@ def insert(op, tab,nomid,idup):
                 if ForeignKeyExist(tip3,str(apl[0][0])) != 0:
                     if op == 'insert':
                         cur.execute('insert into Adopcion (apl_ID,emp_ID,ado_Fecha) values(%s,%s,current_date())',(datos[0],datos[1]))
+            #Aplica
             elif tab == 'Aplica':
                 for i in range(2):
                     datos.append(request.form[str(i)])
@@ -278,6 +312,7 @@ def insert(op, tab,nomid,idup):
                     cur.execute('insert into Aplica (can_ID,mas_ID,apl_FechaAplicacion) values(%s,%s,current_date())',(datos[0],datos[1]))
                 elif op == 'update':
                     cur.execute(f'update aplica set can_ID = {datos[0]}, mas_ID = {datos[1]}, apl_FechaAplicacion = current_date() where apl_id = {idup}')
+            #Contribuidor
             elif tab == 'Contribuidor':
                 for i in range(6):
                     if i == 5:
@@ -314,6 +349,7 @@ def insert(op, tab,nomid,idup):
                         foto = cur.fetchall()
                         datos[5] = foto[0][0]
                     cur.callproc("proc_up_contribuidor",[idup,datos[0],datos[1],datos[2],datos[3],datos[4],datos[5]])
+            #Donacion
             elif tab == 'Donacion':
                 for i in range(4):
                     datos.append(request.form[str(i)])
@@ -336,8 +372,9 @@ def insert(op, tab,nomid,idup):
                 if op == 'insert':
                     cur.execute('insert into Donacion (don_Numero,don_Valor,don_Lugar,con_ID,don_Fecha) values (%s,%s,%s,%s,current_date())',(datos[0],datos[1],datos[2],datos[3]))
                 elif op == 'update':
-                    cur.execute(f'update donacion set don_Numero = {datos[0]}, don_Valor = {datos[1]}, don_Lugar = {datos[2]}, con_ID ={datos[3]}, don_Fecha = current_date() where don_Numero = {idup}')
+                    cur.execute(f'update donacion set don_Numero = "{datos[0]}", don_Valor = {datos[1]}, don_Lugar = "{datos[2]}", con_ID ={datos[3]}, don_Fecha = current_date() where don_Numero = {idup}')
                     idup = datos[0]
+            #Empleado
             elif tab == 'Empleado':
                 for i in range(5):
                     datos.append(request.form[str(i)])
@@ -364,6 +401,7 @@ def insert(op, tab,nomid,idup):
                     cur.execute('insert into Empleado (emp_Documento,emp_Nombre,emp_Apellido,emp_Fecha,fun_ID) values (%s,%s,%s,%s,%s)',(datos[0],datos[1],datos[2],datos[3],datos[4]))
                 elif op == 'update':
                     cur.execute('update empleado set emp_Documento = %s,emp_Nombre = %s,emp_Apellido = %s,emp_Fecha = %s,fun_ID = %s where emp_id = %s',(datos[0],datos[1],datos[2],datos[3],datos[4],idup))
+            #Funcion
             elif tab == 'Funcion':
                 for i in range(5):
                     datos.append(request.form[str(i)])
@@ -385,6 +423,7 @@ def insert(op, tab,nomid,idup):
                     cur.execute('insert into Funcion (fun_Tipo,fun_Descripción,fun_Horario1,fun_Horario2,fun_Pago) values (%s,%s,%s,%s,%s)',(datos[0],datos[1],datos[2],datos[3],datos[4]))
                 elif op == 'update':
                     cur.execute('update funcion set fun_Tipo = %s,fun_Descripción = %s,fun_Horario1 = %s,fun_Horario2 = %s,fun_Pago = %s where fun_id = %s',(datos[0],datos[1],datos[2],datos[3],datos[4],idup))
+            #Mascota
             elif tab == 'Mascota':
                 for i in range(5):
                     if i == 4:
@@ -400,7 +439,7 @@ def insert(op, tab,nomid,idup):
                 tip = cur.fetchall()
                 if ForeignKeyExist(tip,datos[0]) == 0:
                     ms = 'No existe el tipo de mascota ' + datos[0]
-                    raise 
+                    raise
                 elif datos[1] == '':
                     ms = 'No ha insertado un color'
                     raise
@@ -415,6 +454,7 @@ def insert(op, tab,nomid,idup):
                         foto = cur.fetchall()
                         datos[4] = foto[0][0]
                     cur.callproc("proc_up_mascota",[idup,datos[0],datos[1],datos[2],datos[3],datos[4]])
+            #Pagoadicionalempleado
             elif tab == 'Pagoadicionalempleado':
                 for i in range(2):
                     datos.append(request.form[str(i)])
@@ -428,6 +468,8 @@ def insert(op, tab,nomid,idup):
                     cur.execute('insert into PagoAdicionalEmpleado (pad_Valor,pad_Descripción) values(%s,%s)',(datos[0],datos[1]))
                 elif op == 'update':
                     cur.callproc("proc_up_pagoadicionalempleado",[idup,datos[0],datos[1]])
+
+            #Pagoempleado
             elif tab == 'Pagoempleado':
                 for i in range(3):
                     datos.append(request.form[str(i)])
@@ -458,6 +500,7 @@ def insert(op, tab,nomid,idup):
                     elif op == 'update':
                         cur.execute(f'update pagoempleado set pag_Numero = {datos[0]}, emp_id = {datos[1]}, pad_id = {datos[2]}, pag_total = 0, pag_Fecha = current_date() where pag_Numero = {idup}')
                 idup = datos[0]
+            #Tipo de mascota
             elif tab == 'Tipodemascota':
                 for i in range(5):
                     if i == 4:
@@ -470,7 +513,7 @@ def insert(op, tab,nomid,idup):
                         break
                     datos.append(request.form[str(i)])
                 if datos[0] == '' or not (datos[0] == 'Agua' or datos[0] == 'Tierra' or datos[0] == 'Aire') :
-                    ms = 'No ha insertado un habitat valida'
+                    ms = 'No ha insertado un habitat valido'
                     raise
                 elif datos[1] == '':
                     ms = 'No ha insertado una denominación'
@@ -492,24 +535,18 @@ def insert(op, tab,nomid,idup):
             elif tab == 'Vw_aptitud':
                 datos.append(request.form[str(1)])
                 cur.callproc("proc_up_vw_aptitud",[idup,datos[0]])
-            mysql.connection.commit() 
-            return f'''<body bgcolor=gray>
-                    <br><br><br><br><center><font color=green face=tahoma><h2>Datos agregados correctamente
-                    <br><br>
-                    <a class="btn btn-secondary float-right btn-lg w-100"  href="javascript:history.back()">Atrás</a>
-                        </body>'''
-        except:
-            return f'''<body bgcolor=gray>
-                    <br><br><br><br><center><font color=red face=tahoma><h2>{ms}
-                    <br><br>
-                    <a class="btn btn-secondary float-right btn-lg w-100"  href="javascript:history.back()">Atrás</a>
-                        </body>'''
-def ForeignKeyExist(a, dato):
-    c = 0
-    for i in a:
-        if str(i[0]) == dato:
-            c += 1
-    return c
+            mysql.connection.commit()
+            flash('Datos agregados correctamente', 'correcto')
+            return redirect(url_for("add",idup= idup, op = op, nomid = nomid, tab = tab))
+        except Exception as err1:
+            try:
+                print(err1)
+                flash(f'{ms}', 'error')
+                return redirect(url_for("add",idup= idup, op = op, nomid = nomid, tab = tab))
+            except Exception as err:
+                print(err)
+                return redirect(url_for("add",idup= idup, op = op, nomid = nomid, tab = tab))
+
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
