@@ -10,7 +10,9 @@
 	    <select class="form-select fs-6" name="option" aria-label="Default select example">
 	      <option hidden selected>Elija la tabla que quiere ver o editar</option>
 	      {% for table in tables %}
-	      <option value="{{table}}">{{table.0}}</option>
+		{% if table.0 != "TO" %}
+		  <option value="{{table}}">{{table.0}}</option>
+		{% endif %}
 	      {% endfor %}
 	    </select>
 	</div>
