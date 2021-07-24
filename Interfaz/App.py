@@ -84,6 +84,66 @@ def obtain_content(content):
                 list_content[i][k] = str(t)
     return list_content
 
+consultas = {
+        'mascota':{
+            'Gatos':{
+                "callproc":["proc_cons_denominacion_mas_enadopcion",["Gato"]]
+                },
+            'Perros':{
+                "callproc":["proc_cons_denominacion_mas_enadopcion",["Perro"]]
+                },
+            'Peces':{
+                "callproc":["proc_cons_denominacion_mas_enadopcion",["Pez"]]
+                },
+            'Hamsters':{
+                "callproc":["proc_cons_denominacion_mas_enadopcion",["Hamster"]]
+                },
+            'Loros':{
+                "callproc":["proc_cons_denominacion_mas_enadopcion",["Loro"]]
+                },
+            'Conejos':{
+                "callproc":["proc_cons_denominacion_mas_enadopcion",["Conejo"]]
+                },
+            'Machos':{
+                "callproc":["proc_cons_sexo_mas_enadopcion",["Macho"]]
+                },
+            'Hembras':{
+                "callproc":["proc_cons_sexo_mas_enadopcion",["Hembra"]]
+                }
+            },
+        'empleado':{
+            'Vigilantes':{
+                "callproc":["proc_cons_empleado",["Vigilancia"]]
+                },
+            'Psicólogos':{
+                "callproc":["proc_cons_empleado",["Psicólogo"]]
+                },
+            'Publicistas':{
+                "callproc":["proc_cons_empleado",["Publicista"]]
+                },
+            'Veterinarios':{
+                "callproc":["proc_cons_empleado",["Veterinario"]]
+                },
+            'Contadores':{
+                "callproc":["proc_cons_empleado",["Contador"]]
+                },
+            'Rescatistas':{
+                "callproc":["proc_cons_empleado",["Rescatista"]]
+                }
+            },
+        'candidato':{
+            'Aptos':{
+                "callproc":["proc_cons_aptitud_candidato",["Apto"]]
+                },
+            'No aptos':{
+                "callproc":["proc_cons_aptitud_candidato",["No Apto"]]
+                },
+            'No evaluados':{
+                "callproc":["proc_cons_aptitud_candidato",["No evaluado"]]
+                }
+            }
+        }
+
 @app.route('/')
 def Homepage():
     return render_template('homepage.html')
@@ -182,6 +242,13 @@ def table(table, perfil, permit1 = None, permit2 = None, permit3 = None, permit4
     data = obtain_content(cur.fetchall())
     #print("contenido:\n\n", data)
     return render_template('table.html',perfil = perfil, permits = permits, table = table.capitalize(), titles = titles, content = data)
+
+@app.route('/table_cons/', methods=['POST'])
+def table_cons():
+    if request.method == 'POST':
+        table = request.form['filter']
+    return str(table)
+    #return render_template('table.html')
 
 @app.route('/add/<op>/<tab>/<nomid>/<idup>')
 def add(op,tab,nomid,idup):
@@ -536,11 +603,9 @@ def insert(op, tab,nomid,idup):
             return redirect(url_for("add",idup= idup, op = op, nomid = nomid, tab = tab))
         except Exception as err1:
             try:
-                print(err1)
                 flash(f'{ms}', 'error')
                 return redirect(url_for("add",idup= idup, op = op, nomid = nomid, tab = tab))
             except Exception as err:
-                print(err)
                 return redirect(url_for("add",idup= idup, op = op, nomid = nomid, tab = tab))
 
 
