@@ -84,8 +84,10 @@ def obtain_content(content):
                 list_content[i][k] = str(t)
     return list_content
 
+global consultas
+
 consultas = {
-        'mascota':{
+        'vw_noadopt':{
             'Gatos':{
                 "callproc":["proc_cons_denominacion_mas_enadopcion",["Gato"]]
                 },
@@ -135,10 +137,10 @@ consultas = {
             'Aptos':{
                 "callproc":["proc_cons_aptitud_candidato",["Apto"]]
                 },
-            'No aptos':{
+            'No_aptos':{
                 "callproc":["proc_cons_aptitud_candidato",["No Apto"]]
                 },
-            'No evaluados':{
+            'No_evaluados':{
                 "callproc":["proc_cons_aptitud_candidato",["No evaluado"]]
                 }
             }
@@ -229,9 +231,11 @@ def table(table, perfil, permit1 = None, permit2 = None, permit3 = None, permit4
     table_global = table
     permits = [permit1, permit2, permit3, permit4]
     permits_global = permits
-    tables_filters = ['mascota', 'Mascota']
-    if table in tables_filters:
+    if table in consultas.keys():
         permits.append('FILTER')
+        filter_data = consultas[table]
+    else:
+        filter_data = " "
     cur = mysql.connection.cursor()
     cur.execute('SET ROLE ALL')
     cur.execute('Use salvandovidas')
@@ -241,14 +245,22 @@ def table(table, perfil, permit1 = None, permit2 = None, permit3 = None, permit4
     cur.execute('select * from {0}'.format(table))
     data = obtain_content(cur.fetchall())
     #print("contenido:\n\n", data)
-    return render_template('table.html',perfil = perfil, permits = permits, table = table.capitalize(), titles = titles, content = data)
+    return render_template('table.html',perfil = perfil, permits = permits, table = table, titles = titles, content = data, filter_data=filter_data)
 
-@app.route('/table_cons/', methods=['POST'])
+@app.route('/table_cons', methods=['POST'])
 def table_cons():
     if request.method == 'POST':
         table = request.form['filter']
-    return str(table)
-    #return render_template('table.html')
+        global consultas, table_global, permits_global
+        data= consultas[table_global][table]
+        if 'callproc' in data.keys():
+            cur = mysql.connection.cursor()
+            cur.execute('SET ROLE ALL')
+            cur.execute('Use salvandovidas')
+            cur.callproc(data['callproc'][0],data['callproc'][1])
+            titles =  [desc[0] for desc in cur.description]
+            content = obtain_content(cur.fetchall())
+    return render_template('table.html', table =table ,titles=titles, content = content, permits = permits_global, atras = " ", filter_off = True)
 
 @app.route('/add/<op>/<tab>/<nomid>/<idup>')
 def add(op,tab,nomid,idup):
@@ -276,7 +288,9 @@ def delete_fila(id,perfil,permits,table,nombre_id):
     data = obtain_content(cur.fetchall())
 
     mysql.connection.commit()
-    return render_template('table.html', perfil = perfil, permits = permits, table = table, titles = titles, content = data)
+    global permits_global
+    return redirect(url_for('table', table=table, perfil = perfil, permit1 = permits_global[0], permit2=permits_global[1], permit3 =permits_global[2], permit4=permits_global[3]))
+    #return render_template('table.html', perfil = perfil, permits = permits, table = table, titles = titles, content = data)
 
 @app.route('/insert/<op>/<tab>/<nomid>/<idup>', methods=['POST'])
 def insert(op, tab,nomid,idup):
