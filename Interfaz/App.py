@@ -231,9 +231,9 @@ def table(table, perfil, permit1 = None, permit2 = None, permit3 = None, permit4
     table_global = table
     permits = [permit1, permit2, permit3, permit4]
     permits_global = permits
-    if table in consultas.keys():
+    if table.casefold() in consultas.keys():
         permits.append('FILTER')
-        filter_data = consultas[table]
+        filter_data = consultas[table.casefold()]
     else:
         filter_data = " "
     cur = mysql.connection.cursor()
@@ -245,14 +245,14 @@ def table(table, perfil, permit1 = None, permit2 = None, permit3 = None, permit4
     cur.execute('select * from {0}'.format(table))
     data = obtain_content(cur.fetchall())
     #print("contenido:\n\n", data)
-    return render_template('table.html',perfil = perfil, permits = permits, table = table, titles = titles, content = data, filter_data=filter_data)
+    return render_template('table.html',perfil = perfil, permits = permits, table = table.capitalize(), titles = titles, content = data, filter_data=filter_data)
 
 @app.route('/table_cons', methods=['POST'])
 def table_cons():
     if request.method == 'POST':
         table = request.form['filter']
         global consultas, table_global, permits_global
-        data= consultas[table_global][table]
+        data= consultas[table_global.casefold()][table]
         if 'callproc' in data.keys():
             cur = mysql.connection.cursor()
             cur.execute('SET ROLE ALL')
@@ -301,7 +301,7 @@ def insert(op, tab,nomid,idup):
         datos = []
         try:
             #candidato
-            if tab.capitalize() == 'Candidato':
+            if tab == 'Candidato':
                 for i in range(7):
                     datos.append(request.form[str(i)])
                 if datos[0] == '' or (not datos[0].isdigit()) or len(datos[0]) > 10:
