@@ -61,9 +61,11 @@ GRANT SELECT 			ON SalvandoVidas.Candidato 						TO Candidato;
 GRANT SELECT 			ON SalvandoVidas.Adopcion 						TO Candidato;
 GRANT SELECT 			ON SalvandoVidas.Aplica							TO Candidato;
 GRANT SELECT 			ON SalvandoVidas.vw_NoAdopt 					TO Candidato;
+GRANT EXECUTE			ON  SalvandoVidas.* 							TO Candidato;
 
 -- Permisos de perfil Invitado
 GRANT SELECT 			ON SalvandoVidas.vw_NoAdopt 					TO Invitado;
+GRANT EXECUTE			ON  SalvandoVidas.* 							TO Invitado;
 
 -- Permisos de perfil Rescatista
 GRANT ALL PRIVILEGES 	ON SalvandoVidas.Mascota 						TO Rescatista;

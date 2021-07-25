@@ -84,6 +84,68 @@ def obtain_content(content):
                 list_content[i][k] = str(t)
     return list_content
 
+global consultas
+
+consultas = {
+        'vw_noadopt':{
+            'Gatos':{
+                "callproc":["proc_cons_denominacion_mas_enadopcion",["Gato"]]
+                },
+            'Perros':{
+                "callproc":["proc_cons_denominacion_mas_enadopcion",["Perro"]]
+                },
+            'Peces':{
+                "callproc":["proc_cons_denominacion_mas_enadopcion",["Pez"]]
+                },
+            'Hamsters':{
+                "callproc":["proc_cons_denominacion_mas_enadopcion",["Hamster"]]
+                },
+            'Loros':{
+                "callproc":["proc_cons_denominacion_mas_enadopcion",["Loro"]]
+                },
+            'Conejos':{
+                "callproc":["proc_cons_denominacion_mas_enadopcion",["Conejo"]]
+                },
+            'Machos':{
+                "callproc":["proc_cons_sexo_mas_enadopcion",["Macho"]]
+                },
+            'Hembras':{
+                "callproc":["proc_cons_sexo_mas_enadopcion",["Hembra"]]
+                }
+            },
+        'empleado':{
+            'Vigilantes':{
+                "callproc":["proc_cons_empleado",["Vigilancia"]]
+                },
+            'Psicólogos':{
+                "callproc":["proc_cons_empleado",["Psicólogo"]]
+                },
+            'Publicistas':{
+                "callproc":["proc_cons_empleado",["Publicista"]]
+                },
+            'Veterinarios':{
+                "callproc":["proc_cons_empleado",["Veterinario"]]
+                },
+            'Contadores':{
+                "callproc":["proc_cons_empleado",["Contador"]]
+                },
+            'Rescatistas':{
+                "callproc":["proc_cons_empleado",["Rescatista"]]
+                }
+            },
+        'candidato':{
+            'Aptos':{
+                "callproc":["proc_cons_aptitud_candidato",["Apto"]]
+                },
+            'No_aptos':{
+                "callproc":["proc_cons_aptitud_candidato",["No Apto"]]
+                },
+            'No_evaluados':{
+                "callproc":["proc_cons_aptitud_candidato",["No evaluado"]]
+                }
+            }
+        }
+
 @app.route('/')
 def Homepage():
     return render_template('homepage.html')
@@ -169,9 +231,11 @@ def table(table, perfil, permit1 = None, permit2 = None, permit3 = None, permit4
     table_global = table
     permits = [permit1, permit2, permit3, permit4]
     permits_global = permits
-    tables_filters = ['mascota', 'Mascota']
-    if table in tables_filters:
+    if table.casefold() in consultas.keys():
         permits.append('FILTER')
+        filter_data = consultas[table.casefold()]
+    else:
+        filter_data = " "
     cur = mysql.connection.cursor()
     cur.execute('SET ROLE ALL')
     cur.execute('Use salvandovidas')
@@ -181,7 +245,22 @@ def table(table, perfil, permit1 = None, permit2 = None, permit3 = None, permit4
     cur.execute('select * from {0}'.format(table))
     data = obtain_content(cur.fetchall())
     #print("contenido:\n\n", data)
-    return render_template('table.html',perfil = perfil, permits = permits, table = table.capitalize(), titles = titles, content = data)
+    return render_template('table.html',perfil = perfil, permits = permits, table = table.capitalize(), titles = titles, content = data, filter_data=filter_data)
+
+@app.route('/table_cons', methods=['POST'])
+def table_cons():
+    if request.method == 'POST':
+        table = request.form['filter']
+        global consultas, table_global, permits_global
+        data= consultas[table_global.casefold()][table]
+        if 'callproc' in data.keys():
+            cur = mysql.connection.cursor()
+            cur.execute('SET ROLE ALL')
+            cur.execute('Use salvandovidas')
+            cur.callproc(data['callproc'][0],data['callproc'][1])
+            titles =  [desc[0] for desc in cur.description]
+            content = obtain_content(cur.fetchall())
+    return render_template('table.html', table =table ,titles=titles, content = content, permits = ['SELECT'], atras = " ", filter_off = True)
 
 @app.route('/add/<op>/<tab>/<nomid>/<idup>')
 def add(op,tab,nomid,idup):
@@ -209,7 +288,9 @@ def delete_fila(id,perfil,permits,table,nombre_id):
     data = obtain_content(cur.fetchall())
 
     mysql.connection.commit()
-    return render_template('table.html', perfil = perfil, permits = permits, table = table, titles = titles, content = data)
+    global permits_global
+    return redirect(url_for('table', table=table, perfil = perfil, permit1 = permits_global[0], permit2=permits_global[1], permit3 =permits_global[2], permit4=permits_global[3]))
+    #return render_template('table.html', perfil = perfil, permits = permits, table = table, titles = titles, content = data)
 
 @app.route('/insert/<op>/<tab>/<nomid>/<idup>', methods=['POST'])
 def insert(op, tab,nomid,idup):
@@ -536,11 +617,9 @@ def insert(op, tab,nomid,idup):
             return redirect(url_for("add",idup= idup, op = op, nomid = nomid, tab = tab))
         except Exception as err1:
             try:
-                print(err1)
                 flash(f'{ms}', 'error')
                 return redirect(url_for("add",idup= idup, op = op, nomid = nomid, tab = tab))
             except Exception as err:
-                print(err)
                 return redirect(url_for("add",idup= idup, op = op, nomid = nomid, tab = tab))
 
 

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
   {% block content %}
     <div class="container-fluid text-center justify-content-center align-items-center">
-      <div id="Titulo" class="row container-fluid py-4">
+      <div id="Titulo" class="row text-capitalize container-fluid py-4">
 	<h1>Tabla {{table}}</h1>
       </div>
       <div id="Tabla" class="row container-fluid px-5 py-5">
@@ -48,14 +48,18 @@
       {% if ('INSERT' in permits) or ('FILTER' in permits) %}
 	<div class="row container-fluid">
 	  <div class="col-9">
-	    {% if ('FILTER' in permits) %}
-	      <form name="formulario de seleccion" action="{{url_for('list_form', perfil = perfil)}}" method="POST">
+	    {% if ('FILTER' in permits and not filter_off) %}
+	      <form name="formulario de seleccion" action="{{url_for('table_cons')}}" method="POST">
 		<div class="container-fluid px-1">
 		  <div class="row">
 		    <div class="col-9">
-		      <select class="form-select fs-6" name="option" aria-label="Default select example">
-			<option hidden selected>Elija la tabla que quiere ver o editar</option>
-			<option value=""></option>
+		      <select class="form-select fs-6" name="filter" aria-label="Default select example">
+			<option hidden selected>Elija el filtro que desea aplicar</option>
+			{% if filter_data %}
+			  {% for key,value in filter_data.items() %}
+			    <option value={{key}}>{{key}}</option>
+			  {% endfor %}
+			{% endif %}
 		      </select>
 		    </div>
 		    <div class="col">
@@ -79,7 +83,7 @@
       <div class="row container-fluid py-5">
 	<div class="col-9"></div>
 	<div class="col-sm container float-right">
-	  <a class="btn btn-secondary float-right btn-lg w-100"  href="/user/{{perfil}}">Atrás</a>
+	  <a class="btn btn-secondary float-right btn-lg w-100"  href={% if atras %}"javascript:history.back()"{% else %}"/user/{{perfil}}"{% endif %}>Atrás</a>
 	</div>
       </div>
     </div>
