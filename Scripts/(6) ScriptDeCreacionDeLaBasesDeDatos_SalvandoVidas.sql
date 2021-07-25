@@ -11,13 +11,13 @@ create table TipoDeMascota(
       tip_Alimento 			VARCHAR(20) 			NOT NULL,
       tip_Foto			 	BLOB 					NULL DEFAULT ('Por agregar')
 );
-insert into TipoDeMascota	(tip_Habitat,	tip_Denominacion,	tip_Generalidades,												tip_Alimento)
-values						('Tierra', 		'Perro', 			'Juguetones,cariñosos, divertidos, amigables y tiernos.', 		'Purinas'	),
-							('Tierra', 		'Gato', 			'Independientes, tiernos, juguetones y dormilones.', 			'Purinas'	),
-							('Agua', 		'Pez', 				'Tranquilos, Independientes, saludables y comelones.', 			'Plancton'	),
-							('Tierra', 		'Hamster', 			'Inquietos, juguetones, curiosos, peludos y tiernos.', 			'Plantas'	),
-							('Aire', 		'Loro', 			'Melodicos, curiosos, tiernos, charlatanes y buena compañía.', 	'Semillas'	),
-							('Tierra', 		'Conejo', 			'Peludos, saltarines, tiernos, asustadizos y curiosos.', 		'Zanahorias');
+insert into TipoDeMascota	(tip_Habitat,	tip_Denominacion,	tip_Generalidades,												tip_Alimento,	tip_Foto	)
+values						('Tierra', 		'Perro', 			'Juguetones,cariñosos, divertidos, amigables y tiernos.', 		'Purinas',		'tip1.jpg'	),
+							('Tierra', 		'Gato', 			'Independientes, tiernos, juguetones y dormilones.', 			'Purinas',		'tip2.jpg'	),
+							('Agua', 		'Pez', 				'Tranquilos, Independientes, saludables y comelones.', 			'Plancton',		'tip3.jpg'	),
+							('Tierra', 		'Hamster', 			'Inquietos, juguetones, curiosos, peludos y tiernos.', 			'Plantas',		'tip4.jpg'	),
+							('Aire', 		'Loro', 			'Melodicos, curiosos, tiernos, charlatanes y buena compañía.', 	'Semillas',		'tip5.jpg'	),
+							('Tierra', 		'Conejo', 			'Peludos, saltarines, tiernos, asustadizos y curiosos.', 		'Zanahorias',	'tip6.jpg'	);
 
 
 create table Mascota(
@@ -30,23 +30,23 @@ create table Mascota(
       
       foreign key(tip_ID) references TipoDeMascota (tip_ID)
 );
-insert into Mascota			(tip_ID,	mas_Color,	mas_Sexo,	mas_Descripcion																	)
-values						(1, 		'Negro', 	'Macho', 	'Hermoso cachorro de 6 meses de edad, activo y atento.'							),
-							(2, 		'Gris', 	'Hembra', 	'Tierna gatita de 1 año de edad, cariñosa y cazadora.'							),
-							(3, 		'Blanco', 	'Macho', 	'Pez georama traído de Corea, de 3 años de edad.'								),
-							(1, 		'Café', 	'Macho', 	'Perro bulldog de 2 años de edad, juguetón y servicial.'						),
-							(4, 		'Café', 	'Hembra', 	'Hámster de 9 meses de edad, activa y comelona.'								),
-							(5,		 	'Verde', 	'Macho', 	'Loro de 8 meses de edad, charlatán y silbador.'								),
-							(6, 		'Blanco', 	'Macho', 	'Saltarín, comelón, tranquilo y veloz.'											),
-							(2, 		'Blanco', 	'Macho', 	'Gato de 2 años de edad, perezoso y bastante cariñoso.'							),
-							(1, 		'Gris', 	'Hembra',	'Perra siberiana de 1 año de edad, demasiado activa.'							),
-							(2, 		'Manchado', 'Macho', 	'Gato de colores blanco y negro, de 8 meses, juguetón.'							),
-							(1, 		'Manchado', 'Macho', 	'Perro criollo, 2 años, tranquilo, sabe jugar con la pelota.'					),
-							(1, 		'Negro', 	'Hembra', 	'Perro chihuahua, de año y medio de edad, bastante juguetón y cariñoso.'		),
-							(2, 		'Manchado', 'Macho', 	'Gato criollo, aproximadamente 5 años de edad, muy tranquilo y dormilón.'		),
-							(1, 		'Blanco', 	'Hembra', 	'Perro criollo, 10 meses de edad, extremadamente juguetona.'					),
-							(6, 		'Blanco', 	'Hembra', 	'Hembra conejo, de unos 4 meses de edad, muy activa.'							),
-							(1, 		'Manchado', 'Macho', 	'Perro husky blanco y negro, de 2 años, tímido.'								);
+insert into Mascota			(tip_ID,	mas_Color,	mas_Sexo,	mas_Descripcion,																mas_Foto			)
+values						(1, 		'Negro', 	'Macho', 	'Hermoso cachorro de 6 meses de edad, activo y atento.',						'mas1.jpg'			),
+							(2, 		'Gris', 	'Hembra', 	'Tierna gatita de 1 año de edad, cariñosa y cazadora.',							'mas2.jpg'			),
+							(3, 		'Blanco', 	'Macho', 	'Pez georama traído de Corea, de 3 años de edad.',								'Por agregar' 		),
+							(1, 		'Café', 	'Macho', 	'Perro bulldog de 2 años de edad, juguetón y servicial.',						'mas4.jpg'			),
+							(4, 		'Café', 	'Hembra', 	'Hámster de 9 meses de edad, activa y comelona.',								'mas5.jpg'			),
+							(5,		 	'Verde', 	'Macho', 	'Loro de 8 meses de edad, charlatán y silbador.',								'mas6.jpg'			),
+							(6, 		'Blanco', 	'Macho', 	'Saltarín, comelón, tranquilo y veloz.',										'Por agregar'		),
+							(2, 		'Blanco', 	'Macho', 	'Gato de 2 años de edad, perezoso y bastante cariñoso.',						'Por agregar'		),
+							(1, 		'Gris', 	'Hembra',	'Perra siberiana de 1 año de edad, demasiado activa.',							'mas.jpg'			),
+							(2, 		'Manchado', 'Macho', 	'Gato de colores blanco y negro, de 8 meses, juguetón.',						'Por agregar'		),
+							(1, 		'Manchado', 'Macho', 	'Perro criollo, 2 años, tranquilo, sabe jugar con la pelota.',					'mas7.jpg'			),
+							(1, 		'Negro', 	'Hembra', 	'Perro chihuahua, de año y medio de edad, bastante juguetón y cariñoso.',		'Por agregar'		),
+							(2, 		'Manchado', 'Macho', 	'Gato criollo, aproximadamente 5 años de edad, muy tranquilo y dormilón.',		'Por agregar'		),
+							(1, 		'Blanco', 	'Hembra', 	'Perro criollo, 10 meses de edad, extremadamente juguetona.',					'Por agregar'		),
+							(6, 		'Blanco', 	'Hembra', 	'Hembra conejo, de unos 4 meses de edad, muy activa.',							'mas8.jpg'			),
+							(1, 		'Manchado', 'Macho', 	'Perro husky blanco y negro, de 2 años, tímido.',								'Por agregar'		);
                           
                           
                           
@@ -178,14 +178,14 @@ create table Contribuidor(
 	con_Labor		VARCHAR(30) 			NOT NULL,
     con_Foto		BLOB 					NULL DEFAULT ('Por agregar')
 );
-insert into Contribuidor	(con_Documento,		con_Nombre,		con_Apellido,		con_Fecha,		con_Labor				)
-values						('1005468754',		'Samir',		'Nariño',			'1979/02/12',	'Contratista'			),
-							('1001278543',		'Esteban',		'Zamora',			'1983/09/08',	'Medico'				),
-							('1000835552',		'Dayanna',		'Garcia',			'1981/07/13',	'Veterinaria'			),
-							('1006228747',		'Paula',		'Vargas',			'1979/12/11',	'Contador'				),
-							('1005468754',		'Vanessa',		'Torres',			'1998/07/02',	'Ingeniera de Sistemas'	),
-							('1004873012',		'Oscar',		'Franco',			'1970/12/06',	'Mecanico'				),
-							('1006234232',		'Viviana',		'Vargas',			'2003/07/10',	'Estudiante'			);
+insert into Contribuidor	(con_Documento,		con_Nombre,		con_Apellido,		con_Fecha,		con_Labor,				con_Foto			)
+values						('1005468754',		'Samir',		'Nariño',			'1979/02/12',	'Contratista',			'con1.jpg'			),
+							('1001278543',		'Esteban',		'Zamora',			'1983/09/08',	'Medico',				'con2.jpg'			),
+							('1000835552',		'Dayanna',		'Garcia',			'1981/07/13',	'Veterinaria',			'Por agregar'		),
+							('1006228747',		'Paula',		'Vargas',			'1979/12/11',	'Contador',				'Por agregar'		),
+							('1005468754',		'Vanessa',		'Torres',			'1998/07/02',	'Ingeniera de Sistemas','Por agregar'		),
+							('1004873012',		'Oscar',		'Franco',			'1970/12/06',	'Mecanico',				'Por agregar'		),
+							('1006234232',		'Viviana',		'Vargas',			'2003/07/10',	'Estudiante',			'con3.jpg'			);
 
 
 create table Donacion(
