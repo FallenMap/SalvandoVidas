@@ -20,7 +20,18 @@
 	    {% for rows in content %}
 	      <tr>
 		{% for row in rows %}
-		  <td>{{row}}</td>
+		  {% if ((table in 'Mascota') and (row == rows.5)) or ((table in 'Tipodemascota') and (row == rows.5)) or ((table in 'Contribuidor') and (row == rows.6)) or ((table in 'Vw_noadopt') and (row == rows.5)) or ((titles.5 == 'mas_Foto') and (row == rows.5) ) %}
+				{% set row = '{0}'.format(row) %}
+				{% set row = row[1:] %}
+				{% if 'Por agregar' in row %}
+					<td>{{row}}</td>
+				{% else %}
+					{% set row = row[1:-1] %}
+					<td> <img src = "/static/uploads/{{row}}"  alt="{{row}}" style = 'height:15vh'> </td>
+				{% endif %}
+			{% else %}
+		  		<td>{{row}}</td>
+			{% endif %}
 		{% endfor %}
 		{% if ('UPDATE' in permits) or ('DELETE' in permits) %}
 		  <td class="w-25 px-3 py-2 border border-secondary">
@@ -54,10 +65,9 @@
 		  <div class="row">
 		    <div class="col-9">
 		      <select class="form-select fs-6" name="filter" aria-label="Default select example">
-			<option hidden selected>Elija el filtro que desea aplicar</option>
 			{% if filter_data %}
 			  {% for key,value in filter_data.items() %}
-			    <option value={{key}}>{{key}}</option>
+			    <option value="{{key}}">{{key}}</option>
 			  {% endfor %}
 			{% endif %}
 		      </select>
