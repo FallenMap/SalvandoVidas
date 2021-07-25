@@ -260,7 +260,7 @@ def table_cons():
             cur.callproc(data['callproc'][0],data['callproc'][1])
             titles =  [desc[0] for desc in cur.description]
             content = obtain_content(cur.fetchall())
-    return render_template('table.html', table =table ,titles=titles, content = content, permits = permits_global, atras = " ", filter_off = True)
+    return render_template('table.html', table =table ,titles=titles, content = content, permits = ['SELECT'], atras = " ", filter_off = True)
 
 @app.route('/add/<op>/<tab>/<nomid>/<idup>')
 def add(op,tab,nomid,idup):
@@ -301,7 +301,7 @@ def insert(op, tab,nomid,idup):
         datos = []
         try:
             #candidato
-            if tab == 'Candidato':
+            if tab.capitalize() == 'Candidato':
                 for i in range(7):
                     datos.append(request.form[str(i)])
                 if datos[0] == '' or (not datos[0].isdigit()) or len(datos[0]) > 10:
